@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MEDILINK | Unified Healthcare & Prescription Refill Network</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+            },
+            chemist: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Print Specific Styles for Hospital Prescription Slip */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #printable-slip, #printable-slip * {
+        visibility: visible !important;
+      }
+      #printable-slip {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 24px !important;
+        background: white !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- GLOBAL HEADER / NAVIGATION BAR -->
+  <!-- ========================================================================= -->
+  <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="handleLogoClick()">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-sky-500 via-blue-600 to-emerald-400 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-sky-500/20">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">MEDILINK</span>
+          <span class="block text-[10px] font-mono tracking-wider text-sky-400 uppercase -mt-1 font-semibold">Unified Rx Network</span>
+        </div>
+      </div>
+
+      <!-- Logged In User Profile & Global Controls -->
+      <div id="header-user-controls" class="flex items-center space-x-3">
+        <!-- Rendered by JS based on Auth State -->
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 1: PUBLIC LANDING PAGE & DYNAMIC LOGIN / SIGNUP -->
+  <!-- ========================================================================= -->
+  <section id="view-landing" class="flex-1 flex flex-col justify-center py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    
+    <!-- Hero Header -->
+    <div class="text-center space-y-4 max-w-3xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-semibold shadow-inner">
+        <i class="fa-solid fa-shield-halved text-xs"></i>
+        <span>Connecting Hospitals, Pharmacies & Patients</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+        Zero Paper Prescriptions. <br class="hidden sm:inline">
+        <span class="bg-gradient-to-r from-sky-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">Seamless Refill Verification.</span>
+      </h1>
+
+      <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
+        MEDILINK bridges hospital prescription entries directly with neighborhood pharmacies. Patients never lose their prescription, and chemists get instant, zero-friction verification.
+      </p>
+    </div>
+
+    <!-- DYNAMIC ROLE SELECTION CARDS -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
+      
+      <!-- HOSPITAL / DOCTOR CARD -->
+      <div class="bg-slate-800/80 hover:bg-slate-800 border-2 border-sky-500/30 hover:border-sky-500/70 rounded-3xl p-6 sm:p-8 transition-all duration-300 shadow-2xl flex flex-col justify-between group">
+        <div class="space-y-4">
+          <div class="h-14 w-14 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+          <div>
+            <span class="text-xs font-mono font-bold uppercase tracking-widest text-sky-400">Hospital Portal</span>
+            <h3 class="text-2xl font-bold text-white mt-1">For Doctors & Clinics</h3>
+            <p class="text-xs sm:text-sm text-slate-400 mt-2">
+              Issue digital prescriptions in under 20 seconds. Auto-calculate refill dates, select common medicines with speed chips, and print official slips.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 space-y-3">
+          <button onclick="openAuthModal('doctor', 'login')" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow-lg shadow-sky-600/30 flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>Doctor Login</span>
+          </button>
+          <button onclick="openAuthModal('doctor', 'signup')" class="w-full bg-slate-900 hover:bg-slate-950 text-slate-300 hover:text-white border border-slate-700 py-2.5 px-4 rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5">
+            <i class="fa-solid fa-hospital-user"></i>
+            <span>Register Hospital Account</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PHARMACY / CHEMIST CARD -->
+      <div class="bg-slate-800/80 hover:bg-slate-800 border-2 border-emerald-500/30 hover:border-emerald-500/70 rounded-3xl p-6 sm:p-8 transition-all duration-300 shadow-2xl flex flex-col justify-between group">
+        <div class="space-y-4">
+          <div class="h-14 w-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-prescription-bottle-medical"></i>
+          </div>
+          <div>
+            <span class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">Pharmacy Counter</span>
+            <h3 class="text-2xl font-bold text-white mt-1">For Chemists & Shops</h3>
+            <p class="text-xs sm:text-sm text-slate-400 mt-2">
+              Verify patient prescriptions by phone number or name. No paper registers needed. One-click medicine dispensation and automatic audit logging.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 space-y-3">
+          <button onclick="openAuthModal('chemist', 'login')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>Chemist Login</span>
+          </button>
+          <button onclick="openAuthModal('chemist', 'signup')" class="w-full bg-slate-900 hover:bg-slate-950 text-slate-300 hover:text-white border border-slate-700 py-2.5 px-4 rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5">
+            <i class="fa-solid fa-store"></i>
+            <span>Register Pharmacy Store</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Quick Demo Direct Switcher for Hackathon Testing -->
+    <div class="mt-12 bg-slate-800/50 border border-slate-700/60 rounded-2xl p-4 max-w-xl mx-auto text-center space-y-3">
+      <span class="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">⚡ Hackathon One-Click Demo Mode</span>
+      <div class="flex items-center justify-center gap-3">
+        <button onclick="loginAsDemo('doctor')" class="px-4 py-2 bg-sky-950 text-sky-300 border border-sky-500/40 hover:bg-sky-900 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-user-doctor"></i>
+          <span>Instant Doctor View</span>
+        </button>
+        <button onclick="loginAsDemo('chemist')" class="px-4 py-2 bg-emerald-950 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-900 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-prescription-bottle-medical"></i>
+          <span>Instant Chemist View</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 2: HOSPITAL / DOCTOR PORTAL (PROTECTED VIEW) -->
+  <!-- ========================================================================= -->
+  <main id="view-hospital" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    
+    <!-- DASHBOARD STATS BANNER -->
+    <div class="bg-gradient-to-r from-slate-800 via-slate-800 to-sky-950/40 rounded-2xl border border-slate-700/80 p-5 shadow-xl">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-hospital text-sky-400"></i>
+            <span>Doctor Prescription Portal</span>
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
+            Issue digital prescriptions, set automatic refill schedules, and generate printable slips.
+          </p>
+        </div>
+
+        <!-- Live Stats Counters -->
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <div class="bg-slate-900/90 border border-slate-700/70 rounded-xl px-3.5 py-2 text-center min-w-[90px]">
+            <span id="stat-active-rx" class="block text-lg font-extrabold text-sky-400 font-mono">0</span>
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Active Rx</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-700/70 rounded-xl px-3.5 py-2 text-center min-w-[90px]">
+            <span id="stat-dispensed" class="block text-lg font-extrabold text-emerald-400 font-mono">0</span>
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Dispensed</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-700/70 rounded-xl px-3.5 py-2 text-center min-w-[90px]">
+            <span id="stat-patients" class="block text-lg font-extrabold text-purple-400 font-mono">0</span>
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Patients</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN FORM & FEED GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- LEFT COLUMN: PRESCRIPTION BUILDER FORM (7 Cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 sm:p-6 shadow-xl space-y-5">
+          
+          <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+            <h2 class="text-base sm:text-lg font-bold text-white flex items-center space-x-2">
+              <i class="fa-solid fa-file-signature text-sky-400"></i>
+              <span>Create Express Prescription</span>
+            </h2>
+            <span class="text-xs bg-sky-500/10 text-sky-400 px-2.5 py-1 rounded-full font-mono border border-sky-500/20">
+              <i class="fa-solid fa-bolt mr-1"></i>20s Speed Entry
+            </span>
+          </div>
+
+          <!-- STEP 1: PATIENT SEARCH OR REGISTER -->
+          <div class="space-y-3">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+              1. Patient Identification
+            </label>
+            
+            <div class="relative">
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div class="relative flex-1">
+                  <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                  <input type="text" id="doc-patient-search" onkeyup="handleDoctorPatientSearch()" placeholder="Search patient by phone (e.g., 9876543210) or name..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition">
+                </div>
+                <button onclick="openAddPatientModal()" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-lg shadow-sky-600/20 whitespace-nowrap">
+                  <i class="fa-solid fa-user-plus"></i>
+                  <span>+ New Patient</span>
+                </button>
+              </div>
+
+              <!-- Search Autocomplete Dropdown -->
+              <div id="patient-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-30 max-h-48 overflow-y-auto divide-y divide-slate-800">
+                <!-- JS Rendered -->
+              </div>
+            </div>
+
+            <!-- Selected Patient Summary Badge -->
+            <div id="selected-patient-card" class="hidden bg-slate-900/90 border border-sky-500/40 rounded-xl p-3.5 flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-base border border-sky-500/30">
+                  <i class="fa-solid fa-user"></i>
+                </div>
+                <div>
+                  <h4 id="sp-name" class="font-bold text-white text-sm">--</h4>
+                  <p class="text-xs text-slate-400 font-mono">
+                    Phone: <span id="sp-phone" class="text-slate-200">--</span> | Age: <span id="sp-age" class="text-slate-200">--</span> | Gender: <span id="sp-gender" class="text-slate-200">--</span>
+                  </p>
+                </div>
+              </div>
+              <button onclick="clearSelectedPatient()" class="text-slate-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-slate-800 transition">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: DIAGNOSIS & REFILL INTERVAL -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                Diagnosis / Medical Notes
+              </label>
+              <input type="text" id="doc-diagnosis" placeholder="e.g. Type 2 Diabetes & Hypertension" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                Refill Due Date
+              </label>
+              <div class="flex items-center space-x-1.5">
+                <input type="date" id="doc-refill-date" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500 transition flex-1">
+                <button type="button" onclick="setRefillDays(7)" class="px-2 py-2 text-xs bg-slate-700 hover:bg-slate-600 rounded-lg font-medium text-slate-200 transition">+7d</button>
+                <button type="button" onclick="setRefillDays(14)" class="px-2 py-2 text-xs bg-sky-600 hover:bg-sky-500 rounded-lg font-medium text-white transition">+14d</button>
+                <button type="button" onclick="setRefillDays(30)" class="px-2 py-2 text-xs bg-slate-700 hover:bg-slate-600 rounded-lg font-medium text-slate-200 transition">+30d</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: SPEED MEDICINE TAG CHIPS -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                Quick-Add Common Medicines
+              </label>
+              <span class="text-[10px] text-slate-400">Click to append</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" onclick="quickAddMedicine('Metformin', '500mg', '1-0-1 (Morning & Night)', 14)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-sky-950 border border-slate-700 rounded-lg text-slate-300 hover:text-sky-300 transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-sky-400"></i>
+                <span>Metformin 500mg</span>
+              </button>
+              <button type="button" onclick="quickAddMedicine('Amlodipine', '5mg', '1-0-0 (Morning)', 14)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-sky-950 border border-slate-700 rounded-lg text-slate-300 hover:text-sky-300 transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-sky-400"></i>
+                <span>Amlodipine 5mg</span>
+              </button>
+              <button type="button" onclick="quickAddMedicine('Paracetamol', '650mg', '1-0-1 (After meals)', 5)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-sky-950 border border-slate-700 rounded-lg text-slate-300 hover:text-sky-300 transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-sky-400"></i>
+                <span>Paracetamol 650mg</span>
+              </button>
+              <button type="button" onclick="quickAddMedicine('Atorvastatin', '10mg', '0-0-1 (Night)', 30)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-sky-950 border border-slate-700 rounded-lg text-slate-300 hover:text-sky-300 transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-sky-400"></i>
+                <span>Atorvastatin 10mg</span>
+              </button>
+              <button type="button" onclick="quickAddMedicine('Omeprazole', '20mg', '1-0-0 (Before breakfast)', 14)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-sky-950 border border-slate-700 rounded-lg text-slate-300 hover:text-sky-300 transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-sky-400"></i>
+                <span>Omeprazole 20mg</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: MEDICINE DYNAMIC TABLE -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                Prescribed Medicines List
+              </label>
+              <button type="button" onclick="addEmptyMedicineRow()" class="text-xs text-sky-400 hover:text-sky-300 font-semibold flex items-center space-x-1">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Add Custom Row</span>
+              </button>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl border border-slate-700 overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300 min-w-[500px]">
+                <thead class="bg-slate-800/80 uppercase font-semibold text-[10px] text-slate-400 border-b border-slate-700">
+                  <tr>
+                    <th class="py-2.5 px-3">Medicine Name</th>
+                    <th class="py-2.5 px-3">Dosage</th>
+                    <th class="py-2.5 px-3">Timing Frequency</th>
+                    <th class="py-2.5 px-3 w-16">Days</th>
+                    <th class="py-2.5 px-2 text-center w-10"></th>
+                  </tr>
+                </thead>
+                <tbody id="medicine-table-body" class="divide-y divide-slate-800">
+                  <!-- Dynamic Rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUBMIT ACTIONS -->
+          <div class="pt-3 border-t border-slate-700/80 flex items-center justify-between">
+            <button type="button" onclick="resetDoctorForm()" class="px-3.5 py-2 rounded-xl border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
+              Clear
+            </button>
+            <button type="button" onclick="submitPrescription(true)" class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs shadow-lg shadow-sky-600/30 flex items-center space-x-2 transition">
+              <i class="fa-solid fa-print"></i>
+              <span>Issue & Print Slip</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: ISSUED PRESCRIPTIONS FEED (5 Cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center space-x-2">
+              <i class="fa-solid fa-clock-rotate-left text-sky-400"></i>
+              <span>Recent Prescriptions</span>
+            </h3>
+            <span id="doc-rx-count-badge" class="text-xs font-mono bg-slate-900 px-2.5 py-1 rounded-full text-slate-300 border border-slate-700">
+              0 Records
+            </span>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="flex space-x-2 border-b border-slate-700/60 pb-3">
+            <button onclick="filterDocRxList('ALL')" id="doc-filter-all" class="px-3 py-1 rounded-lg text-xs font-medium bg-sky-500/20 text-sky-300 border border-sky-500/30">All</button>
+            <button onclick="filterDocRxList('ACTIVE')" id="doc-filter-active" class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-slate-200">Active</button>
+            <button onclick="filterDocRxList('DISPENSED')" id="doc-filter-dispensed" class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-slate-200">Dispensed</button>
+          </div>
+
+          <!-- Feed Container -->
+          <div id="doc-prescriptions-feed" class="space-y-3 max-h-[540px] overflow-y-auto pr-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 3: CHEMIST / PHARMACY PORTAL (PROTECTED VIEW) -->
+  <!-- ========================================================================= -->
+  <main id="view-chemist" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    
+    <!-- SEARCH HEADER BANNER -->
+    <div class="bg-gradient-to-r from-emerald-950/80 via-slate-800 to-slate-800 rounded-2xl border border-emerald-500/30 p-6 shadow-2xl text-center space-y-4">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+        <i class="fa-solid fa-shop"></i>
+        <span>Pharmacy Counter Verification</span>
+      </div>
+      
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+        Search Patient to Dispense Medicines
+      </h2>
+
+      <!-- Search Input -->
+      <div class="relative max-w-xl mx-auto pt-2">
+        <div class="flex flex-col sm:flex-row items-stretch gap-2">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-emerald-400 text-lg"></i>
+            <input type="text" id="chemist-search-input" onkeyup="handleChemistSearch()" placeholder="Enter Patient Phone (e.g. 9876543210) or Name..." class="w-full bg-slate-900/90 border-2 border-emerald-500/50 focus:border-emerald-400 rounded-xl sm:rounded-2xl pl-12 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none shadow-2xl transition">
+          </div>
+          <button onclick="executeChemistSearch()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2">
+            <span>Verify & Fetch</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHEMIST RESULTS WORKFLOW AREA -->
+    <div id="chemist-result-container" class="space-y-6">
+      
+      <!-- INITIAL EMPTY STATE -->
+      <div id="chemist-empty-state" class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 sm:p-12 text-center max-w-lg mx-auto space-y-3">
+        <div class="h-16 w-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto text-slate-400 text-2xl">
+          <i class="fa-solid fa-prescription-bottle-medical"></i>
+        </div>
+        <h3 class="text-base font-bold text-white">Ready for Patient Lookup</h3>
+        <p class="text-xs text-slate-400">
+          Search by phone above (Try seed demo numbers: <span class="font-mono text-emerald-400 cursor-pointer underline" onclick="quickFillSearch('9876543210')">9876543210</span> or <span class="font-mono text-emerald-400 cursor-pointer underline" onclick="quickFillSearch('9123456789')">9123456789</span>)
+        </p>
+      </div>
+
+      <!-- FOUND PATIENT OVERVIEW CARD & PRESCRIPTIONS -->
+      <div id="chemist-patient-details" class="hidden space-y-6">
+        
+        <!-- Patient Info Header -->
+        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center space-x-4">
+            <div class="h-12 w-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center font-bold text-xl">
+              <i class="fa-solid fa-hospital-user"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 id="chem-patient-name" class="text-lg font-bold text-white">--</h3>
+                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                  <i class="fa-solid fa-circle-check mr-1"></i>Verified
+                </span>
+              </div>
+              <p class="text-xs text-slate-400 font-mono mt-0.5">
+                Phone: <span id="chem-patient-phone" class="text-white font-semibold">--</span> | 
+                DOB: <span id="chem-patient-dob" class="text-white">--</span> | 
+                Gender: <span id="chem-patient-gender" class="text-white">--</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-700">
+            <span class="block text-[10px] text-slate-400 uppercase tracking-wider">Active Prescriptions</span>
+            <span id="chem-active-count" class="text-base font-extrabold text-emerald-400 font-mono">0</span>
+          </div>
+        </div>
+
+        <!-- PRESCRIPTION CARDS FOR DISPENSING -->
+        <div class="space-y-4">
+          <h3 class="text-base font-bold text-white flex items-center space-x-2">
+            <i class="fa-solid fa-file-medical text-emerald-400"></i>
+            <span>Prescriptions for Dispensation</span>
+          </h3>
+
+          <div id="chemist-rx-cards-list" class="space-y-4">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: AUTHENTICATION MODAL (LOGIN & SIGNUP) -->
+  <!-- ========================================================================= -->
+  <div id="modal-auth" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 text-white rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-5">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 id="auth-modal-title" class="text-base font-bold text-white flex items-center space-x-2">
+          <!-- Dynamic -->
+        </h3>
+        <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Auth Mode Switcher Tabs -->
+      <div class="grid grid-cols-2 gap-1 bg-slate-900 p-1 rounded-xl text-xs font-semibold">
+        <button id="tab-auth-login" onclick="switchAuthTab('login')" class="py-2 rounded-lg transition">Login</button>
+        <button id="tab-auth-signup" onclick="switchAuthTab('signup')" class="py-2 rounded-lg transition">Sign Up</button>
+      </div>
+
+      <!-- Auth Form -->
+      <form onsubmit="handleAuthSubmit(event)" class="space-y-3.5">
+        <div id="field-org-name" class="hidden">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Hospital / Pharmacy Store Name</label>
+          <input type="text" id="auth-org-name" placeholder="e.g. Metro Health Hospital" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-sky-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+          <input type="email" id="auth-email" required placeholder="user@domain.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-sky-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-sky-500">
+        </div>
+
+        <button type="submit" id="btn-auth-submit" class="w-full py-3 rounded-xl font-bold text-xs text-white shadow-lg transition mt-2">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: PRINTABLE PRESCRIPTION SLIP -->
+  <!-- ========================================================================= -->
+  <div id="modal-print-slip" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white text-slate-900 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden my-6">
+      
+      <!-- Toolbar (Hidden during print) -->
+      <div class="no-print bg-slate-900 text-white px-6 py-3 flex items-center justify-between border-b border-slate-800">
+        <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Prescription Document Slip</span>
+        <div class="flex items-center space-x-2">
+          <button onclick="triggerPrint()" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-print"></i>
+            <span>Print / Save PDF</span>
+          </button>
+          <button onclick="closePrintModal()" class="text-slate-400 hover:text-white p-1 rounded-lg transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Slip Body -->
+      <div id="printable-slip" class="p-6 sm:p-8 space-y-6 font-sans">
+        
+        <!-- Header -->
+        <div class="flex items-start justify-between border-b-2 border-slate-900 pb-4">
+          <div>
+            <h2 id="slip-hospital-name" class="text-xl sm:text-2xl font-black tracking-tight text-slate-900 uppercase">CITY GENERAL HOSPITAL</h2>
+            <p class="text-xs text-slate-600 font-medium">Internal Medicine & General Care</p>
+            <p class="text-[10px] text-slate-500">Medical District, Main Boulevard | Ph: +1 (800) 555-0199</p>
+          </div>
+          <div class="text-right">
+            <div class="inline-block bg-slate-900 text-white font-mono text-xs px-2.5 py-0.5 rounded font-bold uppercase tracking-wider mb-1">
+              RX RECORD
+            </div>
+            <p id="slip-rx-id" class="text-xs font-mono font-bold text-slate-700">#RX-0000</p>
+            <p id="slip-date" class="text-[10px] text-slate-500">Date: --/--/----</p>
+          </div>
+        </div>
+
+        <!-- Patient Info Grid -->
+        <div class="grid grid-cols-2 gap-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+          <div>
+            <span class="text-slate-500 font-semibold block uppercase text-[9px]">Patient Details</span>
+            <p id="slip-patient-name" class="font-bold text-slate-900 text-sm">--</p>
+            <p class="text-slate-600">Phone: <span id="slip-patient-phone" class="font-mono">--</span></p>
+            <p class="text-slate-600">DOB: <span id="slip-patient-dob">--</span> | Gender: <span id="slip-patient-gender">--</span></p>
+          </div>
+          <div>
+            <span class="text-slate-500 font-semibold block uppercase text-[9px]">Prescribing Doctor</span>
+            <p id="slip-doctor-name" class="font-bold text-slate-900 text-sm">Dr. Sarah Connor</p>
+            <p class="text-slate-600">Diagnosis: <span id="slip-diagnosis" class="font-semibold text-slate-800">--</span></p>
+          </div>
+        </div>
+
+        <!-- Prescribed Items Table -->
+        <div class="space-y-2">
+          <div class="flex items-center space-x-2 text-slate-900 font-extrabold text-base">
+            <span class="font-serif italic text-xl">Rx</span>
+            <span class="text-xs font-sans text-slate-500 font-normal uppercase tracking-wider">(Prescribed Medicines & Schedule)</span>
+          </div>
+          
+          <table class="w-full text-left text-xs border-collapse border border-slate-300">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 font-bold uppercase text-[9px] border-b border-slate-300">
+                <th class="p-2 border-r border-slate-300">#</th>
+                <th class="p-2 border-r border-slate-300">Medicine Name</th>
+                <th class="p-2 border-r border-slate-300">Dosage</th>
+                <th class="p-2 border-r border-slate-300">Frequency</th>
+                <th class="p-2">Duration</th>
+              </tr>
+            </thead>
+            <tbody id="slip-items-body" class="divide-y divide-slate-200 text-slate-800">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Footer & Signature -->
+        <div class="grid grid-cols-12 gap-4 pt-2 items-center">
+          <div class="col-span-8 space-y-1 text-[10px] text-slate-600">
+            <p class="font-bold text-slate-800">Digital Refill Verification:</p>
+            <p>• Next Refill Due Date: <span id="slip-refill-date" class="font-mono font-bold text-sky-700">--/--/----</span></p>
+            <p>• Present patient phone number at any partner pharmacy for paperless verification.</p>
+          </div>
+          <div class="col-span-4 text-center border-l border-slate-200 pl-4 space-y-1">
+            <div class="h-12 w-12 bg-slate-900 text-white rounded mx-auto flex items-center justify-center p-1 text-[8px] font-mono leading-tight">
+              [ MEDILINK ]
+            </div>
+            <p id="slip-doctor-sign" class="text-[10px] font-bold text-slate-800 pt-1">Dr. Sarah Connor</p>
+            <p class="text-[8px] text-slate-500">Verified Digital Sign</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: ADD PATIENT MODAL -->
+  <!-- ========================================================================= -->
+  <div id="modal-add-patient" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 text-white rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center space-x-2">
+          <i class="fa-solid fa-user-plus text-sky-400"></i>
+          <span>Register New Patient</span>
+        </h3>
+        <button onclick="closeAddPatientModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleCreatePatient(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+          <input type="text" id="new-p-name" required placeholder="e.g. John Doe" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number (Primary Key)</label>
+          <input type="tel" id="new-p-phone" required placeholder="10-digit mobile number" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white font-mono focus:outline-none focus:border-sky-500">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Date of Birth</label>
+            <input type="date" id="new-p-dob" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Gender</label>
+            <select id="new-p-gender" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-3 flex justify-end space-x-2">
+          <button type="button" onclick="closeAddPatientModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-xs font-semibold text-slate-300 hover:bg-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold shadow-lg shadow-sky-600/30">Save & Select</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none max-w-sm w-full"></div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <!-- ========================================================================= -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. STATE MANAGEMENT & SESSION CONTROL
+    // -------------------------------------------------------------------------
+    let currentUser = JSON.parse(localStorage.getItem('medilink_user')) || null;
+    let authTargetRole = 'doctor'; // 'doctor' or 'chemist'
+    let authTargetMode = 'login';  // 'login' or 'signup'
+    
+    let selectedPatient = null;
+    let docFilter = 'ALL';
+
+    // Seed Patients Database
+    let patientsDB = JSON.parse(localStorage.getItem('medilink_patients')) || [
+      { id: 'p1', name: 'Eleanor Vance', phone: '9876543210', dob: '1952-04-12', gender: 'Female' },
+      { id: 'p2', name: 'Robert Chen', phone: '9123456789', dob: '1968-11-23', gender: 'Male' },
+      { id: 'p3', name: 'Ananya Sharma', phone: '9988776655', dob: '1985-08-15', gender: 'Female' }
+    ];
+
+    // Seed Prescriptions Database
+    let prescriptionsDB = JSON.parse(localStorage.getItem('medilink_prescriptions')) || [
+      {
+        id: 'rx-1001',
+        patientId: 'p1',
+        patientName: 'Eleanor Vance',
+        patientPhone: '9876543210',
+        doctorName: 'Dr. Sarah Connor',
+        hospitalName: 'St. Jude City Hospital',
+        diagnosis: 'Hypertension & Type 2 Diabetes',
+        refillDueDate: getFutureDateStr(14),
+        status: 'ACTIVE',
+        createdAt: new Date().toISOString().split('T')[0],
+        items: [
+          { name: 'Amlodipine', dosage: '5mg', frequency: '1-0-0 (Morning)', duration: 14 },
+          { name: 'Metformin', dosage: '500mg', frequency: '1-0-1 (Morning & Night)', duration: 14 }
+        ]
+      },
+      {
+        id: 'rx-1002',
+        patientId: 'p2',
+        patientName: 'Robert Chen',
+        patientPhone: '9123456789',
+        doctorName: 'Dr. Rajesh Kumar',
+        hospitalName: 'Apex Heart Care Institute',
+        diagnosis: 'Post-op Cardiac Recovery',
+        refillDueDate: getFutureDateStr(30),
+        status: 'ACTIVE',
+        createdAt: new Date().toISOString().split('T')[0],
+        items: [
+          { name: 'Atorvastatin', dosage: '10mg', frequency: '0-0-1 (Night)', duration: 30 },
+          { name: 'Aspirin', dosage: '75mg', frequency: '1-0-0 (Morning)', duration: 30 }
+        ]
+      }
+    ];
+
+    let dispenseLogsDB = JSON.parse(localStorage.getItem('medilink_dispense_logs')) || [];
+
+    function saveData() {
+      localStorage.setItem('medilink_patients', JSON.stringify(patientsDB));
+      localStorage.setItem('medilink_prescriptions', JSON.stringify(prescriptionsDB));
+      localStorage.setItem('medilink_dispense_logs', JSON.stringify(dispenseLogsDB));
+      updateGlobalStats();
+    }
+
+    function getFutureDateStr(days) {
+      const d = new Date();
+      d.setDate(d.getDate() + days);
+      return d.toISOString().split('T')[0];
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. LIFECYCLE & ROUTING
+    // -------------------------------------------------------------------------
+    window.onload = function() {
+      // Set default date picker
+      document.getElementById('doc-refill-date').value = getFutureDateStr(14);
+      
+      // Initialize dynamic medicine row
+      addEmptyMedicineRow();
+
+      // Check current auth session
+      renderAppView();
+
+      // Keyboard Shortcut Ctrl+K
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          if (currentUser) {
+            if (currentUser.role === 'doctor') document.getElementById('doc-patient-search').focus();
+            else if (currentUser.role === 'chemist') document.getElementById('chemist-search-input').focus();
+          }
+        }
+      });
+    };
+
+    function handleLogoClick() {
+      if (!currentUser) {
+        showView('landing');
+      } else {
+        if (currentUser.role === 'doctor') showView('hospital');
+        else showView('chemist');
+      }
+    }
+
+    function renderAppView() {
+      const headerControls = document.getElementById('header-user-controls');
+
+      if (!currentUser) {
+        // Show Landing Page
+        showView('landing');
+        headerControls.innerHTML = `
+          <button onclick="openAuthModal('doctor', 'login')" class="text-xs text-sky-400 hover:text-sky-300 font-semibold px-3 py-1.5 rounded-lg border border-sky-500/30 bg-sky-500/10 transition">
+            Doctor Login
+          </button>
+          <button onclick="openAuthModal('chemist', 'login')" class="text-xs text-emerald-400 hover:text-emerald-300 font-semibold px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 transition">
+            Chemist Login
+          </button>
+        `;
+      } else {
+        // Authenticated User Header Tag
+        const isDoc = currentUser.role === 'doctor';
+        const badgeColor = isDoc ? 'bg-sky-500/20 text-sky-400 border-sky-500/30' : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+        
+        headerControls.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <div class="hidden sm:flex items-center space-x-2">
+              <div class="h-8 w-8 rounded-full ${badgeColor} flex items-center justify-center font-bold text-xs border">
+                ${currentUser.name.substr(0, 2).toUpperCase()}
+              </div>
+              <div class="text-xs">
+                <span class="block font-bold text-white leading-none">${currentUser.name}</span>
+                <span class="block text-[10px] text-slate-400 leading-tight">${currentUser.orgName}</span>
+              </div>
+            </div>
+
+            <button onclick="handleLogout()" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <span class="hidden sm:inline">Logout</span>
+            </button>
+          </div>
+        `;
+
+        if (isDoc) {
+          showView('hospital');
+          renderDoctorRxFeed();
+          updateGlobalStats();
+        } else {
+          showView('chemist');
+          updateGlobalStats();
+        }
+      }
+    }
+
+    function showView(viewName) {
+      document.getElementById('view-landing').classList.add('hidden');
+      document.getElementById('view-hospital').classList.add('hidden');
+      document.getElementById('view-chemist').classList.add('hidden');
+
+      if (viewName === 'landing') document.getElementById('view-landing').classList.remove('hidden');
+      if (viewName === 'hospital') document.getElementById('view-hospital').classList.remove('hidden');
+      if (viewName === 'chemist') document.getElementById('view-chemist').classList.remove('hidden');
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. DYNAMIC AUTHENTICATION SYSTEM (LOGIN / SIGNUP)
+    // -------------------------------------------------------------------------
+    function openAuthModal(role, mode = 'login') {
+      authTargetRole = role;
+      authTargetMode = mode;
+      
+      const modal = document.getElementById('modal-auth');
+      const title = document.getElementById('auth-modal-title');
+
+      if (role === 'doctor') {
+        title.innerHTML = `<i class="fa-solid fa-user-doctor text-sky-400"></i><span>Doctor Portal Access</span>`;
+      } else {
+        title.innerHTML = `<i class="fa-solid fa-prescription-bottle-medical text-emerald-400"></i><span>Chemist Portal Access</span>`;
+      }
+
+      switchAuthTab(mode);
+      modal.classList.remove('hidden');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('modal-auth').classList.add('hidden');
+    }
+
+    function switchAuthTab(mode) {
+      authTargetMode = mode;
+      const tabLogin = document.getElementById('tab-auth-login');
+      const tabSignup = document.getElementById('tab-auth-signup');
+      const fieldOrg = document.getElementById('field-org-name');
+      const submitBtn = document.getElementById('btn-auth-submit');
+
+      const isDoc = authTargetRole === 'doctor';
+
+      if (mode === 'login') {
+        tabLogin.className = "py-2 rounded-lg transition bg-slate-800 text-white shadow font-bold";
+        tabSignup.className = "py-2 rounded-lg transition text-slate-400 hover:text-slate-200";
+        fieldOrg.classList.add('hidden');
+        submitBtn.innerText = "Login to Portal";
+        submitBtn.className = `w-full py-3 rounded-xl font-bold text-xs text-white shadow-lg transition mt-2 ${isDoc ? 'bg-sky-600 hover:bg-sky-500 shadow-sky-600/30' : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30'}`;
+      } else {
+        tabSignup.className = "py-2 rounded-lg transition bg-slate-800 text-white shadow font-bold";
+        tabLogin.className = "py-2 rounded-lg transition text-slate-400 hover:text-slate-200";
+        fieldOrg.classList.remove('hidden');
+        submitBtn.innerText = "Create Account & Continue";
+        submitBtn.className = `w-full py-3 rounded-xl font-bold text-xs text-white shadow-lg transition mt-2 ${isDoc ? 'bg-sky-600 hover:bg-sky-500 shadow-sky-600/30' : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30'}`;
+      }
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const orgName = document.getElementById('auth-org-name').value.trim() || (authTargetRole === 'doctor' ? 'City General Hospital' : 'CarePlus Pharmacy');
+
+      // Create session object
+      currentUser = {
+        id: 'usr-' + Date.now(),
+        email: email,
+        name: authTargetRole === 'doctor' ? 'Dr. Sarah Connor' : 'Chemist Alex Mercer',
+        orgName: orgName,
+        role: authTargetRole
+      };
+
+      localStorage.setItem('medilink_user', JSON.stringify(currentUser));
+      closeAuthModal();
+      showToast(`Welcome back, ${currentUser.name}!`, 'success');
+      renderAppView();
+    }
+
+    function loginAsDemo(role) {
+      if (role === 'doctor') {
+        currentUser = {
+          id: 'usr-demo-doc',
+          email: 'dr.sarah@cityhospital.org',
+          name: 'Dr. Sarah Connor',
+          orgName: 'St. Jude City Hospital',
+          role: 'doctor'
+        };
+      } else {
+        currentUser = {
+          id: 'usr-demo-chem',
+          email: 'alex@carepluspharmacy.com',
+          name: 'Chemist Alex Mercer',
+          orgName: 'CarePlus Pharmacy Counter',
+          role: 'chemist'
+        };
+      }
+      localStorage.setItem('medilink_user', JSON.stringify(currentUser));
+      showToast(`Logged in as ${currentUser.name} (${role.toUpperCase()})`, 'success');
+      renderAppView();
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('medilink_user');
+      showToast('Logged out successfully.', 'info');
+      renderAppView();
+    }
+
+    function updateGlobalStats() {
+      const activeRxCount = prescriptionsDB.filter(r => r.status === 'ACTIVE').length;
+      const dispensedCount = prescriptionsDB.filter(r => r.status === 'DISPENSED').length;
+      
+      const elActive = document.getElementById('stat-active-rx');
+      const elDisp = document.getElementById('stat-dispensed');
+      const elPat = document.getElementById('stat-patients');
+
+      if (elActive) elActive.innerText = activeRxCount;
+      if (elDisp) elDisp.innerText = dispensedCount;
+      if (elPat) elPat.innerText = patientsDB.length;
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. HOSPITAL DOCTOR WORKFLOW
+    // -------------------------------------------------------------------------
+    function handleDoctorPatientSearch() {
+      const query = document.getElementById('doc-patient-search').value.trim().toLowerCase();
+      const resultsDiv = document.getElementById('patient-search-results');
+
+      if (query.length === 0) {
+        resultsDiv.classList.add('hidden');
+        return;
+      }
+
+      const matches = patientsDB.filter(p => p.phone.includes(query) || p.name.toLowerCase().includes(query));
+
+      if (matches.length === 0) {
+        resultsDiv.innerHTML = `
+          <div class="p-3 text-center text-xs text-slate-400">
+            No patient found matching "${query}". 
+            <button onclick="openAddPatientModal()" class="text-sky-400 underline font-semibold ml-1">Add New Patient</button>
+          </div>
+        `;
+      } else {
+        resultsDiv.innerHTML = matches.map(p => `
+          <div onclick="selectPatientForDoctor('${p.id}')" class="p-3 hover:bg-slate-800 cursor-pointer flex items-center justify-between transition">
+            <div>
+              <span class="font-bold text-white text-xs block">${p.name}</span>
+              <span class="text-[11px] font-mono text-slate-400">Phone: ${p.phone}</span>
+            </div>
+            <span class="text-[10px] bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded">${p.gender}, ${calculateAge(p.dob)}y</span>
+          </div>
+        `).join('');
+      }
+
+      resultsDiv.classList.remove('hidden');
+    }
+
+    function selectPatientForDoctor(patientId) {
+      selectedPatient = patientsDB.find(p => p.id === patientId);
+      document.getElementById('patient-search-results').classList.add('hidden');
+      document.getElementById('doc-patient-search').value = '';
+
+      if (selectedPatient) {
+        document.getElementById('sp-name').innerText = selectedPatient.name;
+        document.getElementById('sp-phone').innerText = selectedPatient.phone;
+        document.getElementById('sp-age').innerText = calculateAge(selectedPatient.dob) + ' yrs';
+        document.getElementById('sp-gender').innerText = selectedPatient.gender;
+        document.getElementById('selected-patient-card').classList.remove('hidden');
+      }
+    }
+
+    function clearSelectedPatient() {
+      selectedPatient = null;
+      document.getElementById('selected-patient-card').classList.add('hidden');
+    }
+
+    function setRefillDays(days) {
+      document.getElementById('doc-refill-date').value = getFutureDateStr(days);
+    }
+
+    function addEmptyMedicineRow(name = '', dosage = '', frequency = '1-0-1 (Morning & Night)', duration = 14) {
+      const tbody = document.getElementById('medicine-table-body');
+      const rowId = 'med-row-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
+
+      const tr = document.createElement('tr');
+      tr.id = rowId;
+      tr.className = "hover:bg-slate-800/50 transition";
+      tr.innerHTML = `
+        <td class="py-2 px-3">
+          <input type="text" value="${name}" placeholder="e.g. Paracetamol" class="med-name w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-sky-500">
+        </td>
+        <td class="py-2 px-3">
+          <input type="text" value="${dosage}" placeholder="500mg" class="med-dosage w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-sky-500">
+        </td>
+        <td class="py-2 px-3">
+          <select class="med-freq w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-sky-500">
+            <option value="1-0-0 (Morning)" ${frequency.includes('1-0-0') ? 'selected' : ''}>1-0-0 (Morning)</option>
+            <option value="1-0-1 (Morning & Night)" ${frequency.includes('1-0-1') ? 'selected' : ''}>1-0-1 (Morning & Night)</option>
+            <option value="0-0-1 (Night)" ${frequency.includes('0-0-1') ? 'selected' : ''}>0-0-1 (Night)</option>
+            <option value="1-1-1 (Thrice Daily)" ${frequency.includes('1-1-1') ? 'selected' : ''}>1-1-1 (Thrice Daily)</option>
+            <option value="As needed" ${frequency.includes('As needed') ? 'selected' : ''}>As needed</option>
+          </select>
+        </td>
+        <td class="py-2 px-3">
+          <input type="number" value="${duration}" min="1" max="180" class="med-days w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-sky-500">
+        </td>
+        <td class="py-2 px-2 text-center">
+          <button type="button" onclick="removeMedicineRow('${rowId}')" class="text-slate-500 hover:text-red-400 transition">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    function quickAddMedicine(name, dosage, frequency, duration) {
+      const tbody = document.getElementById('medicine-table-body');
+      const firstRowNameInput = tbody.querySelector('.med-name');
+      
+      if (firstRowNameInput && firstRowNameInput.value.trim() === '') {
+        const tr = firstRowNameInput.closest('tr');
+        tr.querySelector('.med-name').value = name;
+        tr.querySelector('.med-dosage').value = dosage;
+        tr.querySelector('.med-freq').value = frequency;
+        tr.querySelector('.med-days').value = duration;
+      } else {
+        addEmptyMedicineRow(name, dosage, frequency, duration);
+      }
+      showToast(`Added ${name} to medication list`, 'info');
+    }
+
+    function removeMedicineRow(rowId) {
+      const row = document.getElementById(rowId);
+      if (row) row.remove();
+    }
+
+    function submitPrescription(autoPrint = false) {
+      if (!selectedPatient) {
+        showToast('Please select or register a patient first!', 'error');
+        document.getElementById('doc-patient-search').focus();
+        return;
+      }
+
+      const diagnosis = document.getElementById('doc-diagnosis').value.trim() || 'General Consultation';
+      const refillDueDate = document.getElementById('doc-refill-date').value;
+
+      const items = [];
+      const rows = document.querySelectorAll('#medicine-table-body tr');
+      rows.forEach(r => {
+        const name = r.querySelector('.med-name').value.trim();
+        const dosage = r.querySelector('.med-dosage').value.trim();
+        const frequency = r.querySelector('.med-freq').value;
+        const duration = parseInt(r.querySelector('.med-days').value) || 7;
+
+        if (name) {
+          items.push({ name, dosage: dosage || 'Standard', frequency, duration });
+        }
+      });
+
+      if (items.length === 0) {
+        showToast('Please add at least one medicine to the prescription!', 'error');
+        return;
+      }
+
+      const newRx = {
+        id: 'rx-' + Math.floor(1000 + Math.random() * 9000),
+        patientId: selectedPatient.id,
+        patientName: selectedPatient.name,
+        patientPhone: selectedPatient.phone,
+        doctorName: currentUser ? currentUser.name : 'Dr. Sarah Connor',
+        hospitalName: currentUser ? currentUser.orgName : 'St. Jude City Hospital',
+        diagnosis: diagnosis,
+        refillDueDate: refillDueDate,
+        status: 'ACTIVE',
+        createdAt: new Date().toISOString().split('T')[0],
+        items: items
+      };
+
+      prescriptionsDB.unshift(newRx);
+      saveData();
+      renderDoctorRxFeed();
+
+      showToast(`Prescription #${newRx.id} issued successfully!`, 'success');
+
+      // Trigger notification to Express Backend (if running)
+      triggerBackendSMSNotification(newRx);
+
+      if (autoPrint) {
+        openPrintModal(newRx.id);
+      }
+
+      resetDoctorForm();
+    }
+
+    function triggerBackendSMSNotification(rx) {
+      fetch('http://localhost:4000/api/notify-refill', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          patientPhone: rx.patientPhone,
+          patientName: rx.patientName,
+          refillDueDate: rx.refillDueDate,
+          prescriptionId: rx.id
+        })
+      }).catch(() => {
+        // Backend optional / silently handle offline status
+      });
+    }
+
+    function resetDoctorForm() {
+      clearSelectedPatient();
+      document.getElementById('doc-diagnosis').value = '';
+      document.getElementById('doc-refill-date').value = getFutureDateStr(14);
+      document.getElementById('medicine-table-body').innerHTML = '';
+      addEmptyMedicineRow();
+    }
+
+    function renderDoctorRxFeed() {
+      const feed = document.getElementById('doc-prescriptions-feed');
+      if (!feed) return;
+
+      let filtered = prescriptionsDB;
+      if (docFilter !== 'ALL') {
+        filtered = prescriptionsDB.filter(r => r.status === docFilter);
+      }
+
+      document.getElementById('doc-rx-count-badge').innerText = `${filtered.length} Records`;
+
+      if (filtered.length === 0) {
+        feed.innerHTML = `
+          <div class="text-center py-8 text-slate-500 text-xs">
+            No ${docFilter.toLowerCase()} prescriptions found.
+          </div>
+        `;
+        return;
+      }
+
+      feed.innerHTML = filtered.map(rx => `
+        <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 space-y-3 hover:border-sky-500/40 transition">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="font-mono text-xs font-bold text-sky-400">${rx.id}</span>
+              <h4 class="font-bold text-white text-sm">${rx.patientName}</h4>
+              <p class="text-xs text-slate-400 font-mono">Phone: ${rx.patientPhone}</p>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono border ${
+              rx.status === 'ACTIVE' 
+                ? 'bg-sky-500/10 text-sky-400 border-sky-500/30' 
+                : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+            }">
+              ${rx.status}
+            </span>
+          </div>
+
+          <div class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-lg space-y-1">
+            <p class="text-slate-400"><strong>Dx:</strong> ${rx.diagnosis}</p>
+            <p class="text-slate-400"><strong>Meds (${rx.items.length}):</strong> ${rx.items.map(i => i.name).join(', ')}</p>
+          </div>
+
+          <div class="flex items-center justify-between pt-1 text-xs">
+            <span class="text-[11px] text-slate-500 font-mono">Due: ${rx.refillDueDate}</span>
+            <button onclick="openPrintModal('${rx.id}')" class="text-sky-400 hover:text-sky-300 font-semibold flex items-center space-x-1">
+              <i class="fa-solid fa-print"></i>
+              <span>Print Slip</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterDocRxList(filter) {
+      docFilter = filter;
+      ['all', 'active', 'dispensed'].forEach(f => {
+        const btn = document.getElementById(`doc-filter-${f}`);
+        if (f.toUpperCase() === filter) {
+          btn.className = "px-3 py-1 rounded-lg text-xs font-medium bg-sky-500/20 text-sky-300 border border-sky-500/30";
+        } else {
+          btn.className = "px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-slate-200";
+        }
+      });
+      renderDoctorRxFeed();
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. CHEMIST PHARMACY WORKFLOW
+    // -------------------------------------------------------------------------
+    function quickFillSearch(phone) {
+      document.getElementById('chemist-search-input').value = phone;
+      executeChemistSearch();
+    }
+
+    function handleChemistSearch() {
+      const query = document.getElementById('chemist-search-input').value.trim();
+      if (query.length >= 3) {
+        executeChemistSearch();
+      }
+    }
+
+    function executeChemistSearch() {
+      const query = document.getElementById('chemist-search-input').value.trim().toLowerCase();
+      const emptyState = document.getElementById('chemist-empty-state');
+      const patientDetails = document.getElementById('chemist-patient-details');
+
+      if (!query) {
+        emptyState.classList.remove('hidden');
+        patientDetails.classList.add('hidden');
+        return;
+      }
+
+      const patient = patientsDB.find(p => p.phone.includes(query) || p.name.toLowerCase().includes(query));
+
+      if (!patient) {
+        emptyState.classList.remove('hidden');
+        patientDetails.classList.add('hidden');
+        emptyState.innerHTML = `
+          <div class="h-14 w-14 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto text-xl border border-red-500/20">
+            <i class="fa-solid fa-user-slash"></i>
+          </div>
+          <h3 class="text-base font-bold text-white">No Patient Records Found</h3>
+          <p class="text-xs text-slate-400">No registered patient matched "${query}". Please verify phone number.</p>
+        `;
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      patientDetails.classList.remove('hidden');
+
+      document.getElementById('chem-patient-name').innerText = patient.name;
+      document.getElementById('chem-patient-phone').innerText = patient.phone;
+      document.getElementById('chem-patient-dob').innerText = patient.dob;
+      document.getElementById('chem-patient-gender').innerText = patient.gender;
+
+      const patientRxs = prescriptionsDB.filter(r => r.patientId === patient.id || r.patientPhone === patient.phone);
+      const activeRxs = patientRxs.filter(r => r.status === 'ACTIVE');
+      document.getElementById('chem-active-count').innerText = activeRxs.length;
+
+      renderChemistRxCards(patientRxs);
+    }
+
+    function renderChemistRxCards(rxs) {
+      const container = document.getElementById('chemist-rx-cards-list');
+
+      if (rxs.length === 0) {
+        container.innerHTML = `
+          <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 text-center text-slate-400 text-xs">
+            No prescription records found for this patient.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = rxs.map(rx => `
+        <div class="bg-slate-800/90 rounded-2xl border ${rx.status === 'ACTIVE' ? 'border-emerald-500/40 shadow-emerald-950/20' : 'border-slate-700/80'} p-5 shadow-xl space-y-4">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700/80 pb-3">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono text-xs font-bold text-emerald-400">${rx.id}</span>
+                <span class="text-xs text-slate-400">| ${rx.hospitalName} (${rx.doctorName})</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5"><strong>Dx:</strong> ${rx.diagnosis}</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-xs font-mono text-slate-400">Refill Due: <strong class="text-white">${rx.refillDueDate}</strong></span>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono border ${
+                rx.status === 'ACTIVE' 
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
+                  : 'bg-slate-700 text-slate-400 border-slate-600'
+              }">
+                ${rx.status === 'ACTIVE' ? 'ELIGIBLE FOR DISPENSE' : 'DISPENSED'}
+              </span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Prescribed Medicines</h4>
+            <div class="bg-slate-900 rounded-xl border border-slate-700 overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300 min-w-[450px]">
+                <thead class="bg-slate-800/60 font-semibold uppercase text-[10px] text-slate-400 border-b border-slate-700">
+                  <tr>
+                    <th class="py-2 px-3">Medicine</th>
+                    <th class="py-2 px-3">Dosage</th>
+                    <th class="py-2 px-3">Timing</th>
+                    <th class="py-2 px-3">Duration</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 font-mono">
+                  ${rx.items.map(item => `
+                    <tr>
+                      <td class="py-2 px-3 font-bold text-white font-sans">${item.name}</td>
+                      <td class="py-2 px-3 text-emerald-400">${item.dosage}</td>
+                      <td class="py-2 px-3 text-slate-300 font-sans">${item.frequency}</td>
+                      <td class="py-2 px-3 text-slate-400">${item.duration} days</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="pt-1 flex items-center justify-between">
+            <button onclick="openPrintModal('${rx.id}')" class="text-xs text-slate-400 hover:text-white flex items-center space-x-1.5 transition">
+              <i class="fa-solid fa-print"></i>
+              <span>View Original Slip</span>
+            </button>
+
+            ${rx.status === 'ACTIVE' ? `
+              <button onclick="dispensePrescription('${rx.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center space-x-2">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Fulfill & Dispense</span>
+              </button>
+            ` : `
+              <div class="text-xs text-slate-400 font-mono flex items-center space-x-1">
+                <i class="fa-solid fa-check-double text-emerald-400"></i>
+                <span>Fulfilled by ${rx.dispensedBy || 'Pharmacy Counter'}</span>
+              </div>
+            `}
+          </div>
+
+        </div>
+      `).join('');
+    }
+
+    function dispensePrescription(rxId) {
+      const rx = prescriptionsDB.find(r => r.id === rxId);
+      if (!rx) return;
+
+      const chemistOrg = currentUser ? currentUser.orgName : 'CarePlus Pharmacy';
+
+      rx.status = 'DISPENSED';
+      rx.dispensedAt = new Date().toISOString();
+      rx.dispensedBy = chemistOrg;
+
+      dispenseLogsDB.push({
+        rxId: rx.id,
+        patientName: rx.patientName,
+        dispensedAt: rx.dispensedAt,
+        pharmacyName: chemistOrg
+      });
+
+      saveData();
+      showToast(`Prescription #${rx.id} fulfilled and dispensed!`, 'success');
+
+      executeChemistSearch();
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. MODALS: PRINT & PATIENT CREATION
+    // -------------------------------------------------------------------------
+    function openPrintModal(rxId) {
+      const rx = prescriptionsDB.find(r => r.id === rxId);
+      if (!rx) return;
+
+      const patient = patientsDB.find(p => p.id === rx.patientId || p.phone === rx.patientPhone);
+
+      document.getElementById('slip-hospital-name').innerText = rx.hospitalName.toUpperCase();
+      document.getElementById('slip-rx-id').innerText = '#' + rx.id;
+      document.getElementById('slip-date').innerText = 'Date: ' + rx.createdAt;
+      document.getElementById('slip-patient-name').innerText = rx.patientName;
+      document.getElementById('slip-patient-phone').innerText = rx.patientPhone;
+      document.getElementById('slip-patient-dob').innerText = patient ? patient.dob : 'N/A';
+      document.getElementById('slip-patient-gender').innerText = patient ? patient.gender : 'N/A';
+      document.getElementById('slip-doctor-name').innerText = rx.doctorName;
+      document.getElementById('slip-doctor-sign').innerText = rx.doctorName;
+      document.getElementById('slip-diagnosis').innerText = rx.diagnosis;
+      document.getElementById('slip-refill-date').innerText = rx.refillDueDate;
+
+      const tbody = document.getElementById('slip-items-body');
+      tbody.innerHTML = rx.items.map((item, idx) => `
+        <tr>
+          <td class="p-2 border-r border-slate-300 font-mono text-center">${idx + 1}</td>
+          <td class="p-2 border-r border-slate-300 font-bold text-slate-900">${item.name}</td>
+          <td class="p-2 border-r border-slate-300 font-mono">${item.dosage}</td>
+          <td class="p-2 border-r border-slate-300">${item.frequency}</td>
+          <td class="p-2 font-mono">${item.duration} days</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('modal-print-slip').classList.remove('hidden');
+    }
+
+    function closePrintModal() {
+      document.getElementById('modal-print-slip').classList.add('hidden');
+    }
+
+    function triggerPrint() {
+      window.print();
+    }
+
+    function openAddPatientModal() {
+      document.getElementById('modal-add-patient').classList.remove('hidden');
+    }
+
+    function closeAddPatientModal() {
+      document.getElementById('modal-add-patient').classList.add('hidden');
+    }
+
+    function handleCreatePatient(e) {
+      e.preventDefault();
+      const name = document.getElementById('new-p-name').value.trim();
+      const phone = document.getElementById('new-p-phone').value.trim();
+      const dob = document.getElementById('new-p-dob').value;
+      const gender = document.getElementById('new-p-gender').value;
+
+      if (patientsDB.some(p => p.phone === phone)) {
+        showToast('Patient with this phone number already exists!', 'error');
+        return;
+      }
+
+      const newPatient = {
+        id: 'p-' + Date.now(),
+        name,
+        phone,
+        dob,
+        gender
+      };
+
+      patientsDB.push(newPatient);
+      saveData();
+      closeAddPatientModal();
+      selectPatientForDoctor(newPatient.id);
+      showToast(`Patient ${name} registered successfully!`, 'success');
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. UTILITIES
+    // -------------------------------------------------------------------------
+    function calculateAge(dobString) {
+      if (!dobString) return '--';
+      const today = new Date();
+      const birthDate = new Date(dobString);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      let borderClr = 'border-sky-500';
+      let icon = 'fa-circle-info text-sky-400';
+
+      if (type === 'success') {
+        borderClr = 'border-emerald-500';
+        icon = 'fa-circle-check text-emerald-400';
+      } else if (type === 'error') {
+        borderClr = 'border-red-500';
+        icon = 'fa-triangle-exclamation text-red-400';
+      }
+
+      toast.className = `pointer-events-auto bg-slate-900 text-white text-xs px-4 py-3 rounded-xl border ${borderClr} shadow-2xl flex items-center space-x-2 transition transform duration-300`;
+      toast.innerHTML = `
+        <i class="fa-solid ${icon}"></i>
+        <span class="font-medium">${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
