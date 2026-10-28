@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     tailwind.config = {
@@ -103,6 +105,15 @@
           <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">MEDILINK</span>
           <span class="block text-[10px] font-mono tracking-wider text-sky-400 uppercase -mt-1 font-semibold">Unified Rx Network</span>
         </div>
+      </div>
+
+      <!-- Database Status Indicator & Supabase Settings Trigger -->
+      <div class="hidden md:flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs">
+        <span id="db-status-dot" class="h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="db-status-text" class="text-slate-300 font-mono text-[11px]">Demo Storage</span>
+        <button onclick="openSupabaseModal()" title="Configure Supabase Keys" class="text-slate-400 hover:text-sky-400 ml-1 transition">
+          <i class="fa-solid fa-gear"></i>
+        </button>
       </div>
 
       <!-- Logged In User Profile & Global Controls -->
@@ -475,7 +486,7 @@
         </div>
         <h3 class="text-base font-bold text-white">Ready for Patient Lookup</h3>
         <p class="text-xs text-slate-400">
-          Search by phone above (Try seed demo numbers: <span class="font-mono text-emerald-400 cursor-pointer underline" onclick="quickFillSearch('9876543210')">9876543210</span> or <span class="font-mono text-emerald-400 cursor-pointer underline" onclick="quickFillSearch('9123456789')">9123456789</span>)
+          Search by phone above (Try demo numbers: <span class="font-mono text-emerald-400 cursor-pointer underline" onclick="quickFillSearch('9876543210')">9876543210</span> or <span class="font-mono text-emerald-400 cursor-pointer underline" onclick="quickFillSearch('9123456789')">9123456789</span>)
         </p>
       </div>
 
@@ -717,16 +728,139 @@
     </div>
   </div>
 
+  <!-- ========================================================================= -->
+  <!-- MODAL 4: SUPABASE CONFIGURATION DIALOG -->
+  <!-- ========================================================================= -->
+  <div id="modal-supabase" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 text-white rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center space-x-2">
+          <i class="fa-solid fa-database text-sky-400"></i>
+          <span>Supabase Connection Settings</span>
+        </h3>
+        <button onclick="closeSupabaseModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-400 leading-relaxed">
+        Enter your Supabase credentials here to sync prescriptions directly with your PostgreSQL database. Leave blank to use instant local demo mode.
+      </p>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Supabase Project URL</label>
+          <input type="url" id="cfg-sb-url" placeholder="https://xyzcompany.supabase.co" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-sky-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Supabase Anon Key</label>
+          <textarea id="cfg-sb-key" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-sky-500"></textarea>
+        </div>
+      </div>
+
+      <div class="pt-3 flex items-center justify-between border-t border-slate-700">
+        <button type="button" onclick="disconnectSupabase()" class="px-3.5 py-2 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 text-xs font-medium transition">
+          Disconnect DB
+        </button>
+        <div class="flex space-x-2">
+          <button type="button" onclick="closeSupabaseModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-xs font-semibold text-slate-300 hover:bg-slate-700">Cancel</button>
+          <button type="button" onclick="saveSupabaseConfig()" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold shadow-lg shadow-sky-600/30">Save & Connect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none max-w-sm w-full"></div>
 
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <!-- JAVASCRIPT APPLICATION LOGIC WITH DUAL SUPABASE + LOCAL FALLBACK ENGINE -->
   <!-- ========================================================================= -->
   <script>
-    
     // -------------------------------------------------------------------------
-    // 1. STATE MANAGEMENT & SESSION CONTROL
+    // 1. SUPABASE CLIENT & CONFIGURATION INITIALIZATION
+    // -------------------------------------------------------------------------
+    // Paste your Supabase credentials here directly, or configure via UI Settings gear!
+    let SUPABASE_URL = localStorage.getItem('https://vnslogdnlahzxexealzi.supabase.co') || '';
+    let SUPABASE_ANON_KEY = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZuc2xvZ2RubGFoenhleGVhbHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNjIyODEsImV4cCI6MjEwODczODI4MX0.WW4nxoFdv7hvhAhKe4pkB1-bzt8cF1Yqn7yoSo3fMA8') || '';
+    
+    let supabaseClient = null;
+    let isSupabaseConnected = false;
+
+    function initSupabase() {
+      if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
+        try {
+          supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          isSupabaseConnected = true;
+          updateDbStatusBadge(true, 'Supabase Cloud DB');
+          syncFromSupabase();
+        } catch (e) {
+          console.warn('[MEDILINK] Supabase init error, falling back to local demo:', e);
+          isSupabaseConnected = false;
+          updateDbStatusBadge(false, 'Local Demo Mode');
+        }
+      } else {
+        isSupabaseConnected = false;
+        updateDbStatusBadge(false, 'Local Demo Mode');
+      }
+    }
+
+    function updateDbStatusBadge(connected, text) {
+      const dot = document.getElementById('db-status-dot');
+      const label = document.getElementById('db-status-text');
+      if (dot && label) {
+        if (connected) {
+          dot.className = 'h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-md shadow-emerald-400/50';
+          label.className = 'text-emerald-300 font-mono text-[11px] font-semibold';
+        } else {
+          dot.className = 'h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse';
+          label.className = 'text-slate-300 font-mono text-[11px]';
+        }
+        label.innerText = text;
+      }
+    }
+
+    function openSupabaseModal() {
+      document.getElementById('cfg-sb-url').value = SUPABASE_URL;
+      document.getElementById('cfg-sb-key').value = SUPABASE_ANON_KEY;
+      document.getElementById('modal-supabase').classList.remove('hidden');
+    }
+
+    function closeSupabaseModal() {
+      document.getElementById('modal-supabase').classList.add('hidden');
+    }
+
+    function saveSupabaseConfig() {
+      const url = document.getElementById('cfg-sb-url').value.trim();
+      const key = document.getElementById('cfg-sb-key').value.trim();
+
+      if (url && key) {
+        localStorage.setItem('medilink_sb_url', url);
+        localStorage.setItem('medilink_sb_key', key);
+        SUPABASE_URL = url;
+        SUPABASE_ANON_KEY = key;
+        initSupabase();
+        showToast('Supabase connected successfully!', 'success');
+      } else {
+        disconnectSupabase();
+      }
+      closeSupabaseModal();
+    }
+
+    function disconnectSupabase() {
+      localStorage.removeItem('medilink_sb_url');
+      localStorage.removeItem('medilink_sb_key');
+      SUPABASE_URL = '';
+      SUPABASE_ANON_KEY = '';
+      supabaseClient = null;
+      isSupabaseConnected = false;
+      updateDbStatusBadge(false, 'Local Demo Mode');
+      closeSupabaseModal();
+      showToast('Disconnected from Supabase. Switched to Local Demo Mode.', 'info');
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. STATE MANAGEMENT & DATA PERSISTENCE
     // -------------------------------------------------------------------------
     let currentUser = JSON.parse(localStorage.getItem('medilink_user')) || null;
     let authTargetRole = 'doctor'; // 'doctor' or 'chemist'
@@ -735,18 +869,17 @@
     let selectedPatient = null;
     let docFilter = 'ALL';
 
-    // Seed Patients Database
+    // Seed Data Fallbacks
     let patientsDB = JSON.parse(localStorage.getItem('medilink_patients')) || [
-      { id: 'p1', name: 'Eleanor Vance', phone: '9876543210', dob: '1952-04-12', gender: 'Female' },
-      { id: 'p2', name: 'Robert Chen', phone: '9123456789', dob: '1968-11-23', gender: 'Male' },
-      { id: 'p3', name: 'Ananya Sharma', phone: '9988776655', dob: '1985-08-15', gender: 'Female' }
+      { id: 'a1111111-1111-1111-1111-111111111111', name: 'Eleanor Vance', phone: '9876543210', dob: '1952-04-12', gender: 'Female' },
+      { id: 'b2222222-2222-2222-2222-222222222222', name: 'Robert Chen', phone: '9123456789', dob: '1968-11-23', gender: 'Male' },
+      { id: 'p3333333-3333-3333-3333-333333333333', name: 'Ananya Sharma', phone: '9988776655', dob: '1985-08-15', gender: 'Female' }
     ];
 
-    // Seed Prescriptions Database
     let prescriptionsDB = JSON.parse(localStorage.getItem('medilink_prescriptions')) || [
       {
-        id: 'rx-1001',
-        patientId: 'p1',
+        id: 'c3333333-3333-3333-3333-333333333333',
+        patientId: 'a1111111-1111-1111-1111-111111111111',
         patientName: 'Eleanor Vance',
         patientPhone: '9876543210',
         doctorName: 'Dr. Sarah Connor',
@@ -758,22 +891,6 @@
         items: [
           { name: 'Amlodipine', dosage: '5mg', frequency: '1-0-0 (Morning)', duration: 14 },
           { name: 'Metformin', dosage: '500mg', frequency: '1-0-1 (Morning & Night)', duration: 14 }
-        ]
-      },
-      {
-        id: 'rx-1002',
-        patientId: 'p2',
-        patientName: 'Robert Chen',
-        patientPhone: '9123456789',
-        doctorName: 'Dr. Rajesh Kumar',
-        hospitalName: 'Apex Heart Care Institute',
-        diagnosis: 'Post-op Cardiac Recovery',
-        refillDueDate: getFutureDateStr(30),
-        status: 'ACTIVE',
-        createdAt: new Date().toISOString().split('T')[0],
-        items: [
-          { name: 'Atorvastatin', dosage: '10mg', frequency: '0-0-1 (Night)', duration: 30 },
-          { name: 'Aspirin', dosage: '75mg', frequency: '1-0-0 (Morning)', duration: 30 }
         ]
       }
     ];
@@ -794,9 +911,134 @@
     }
 
     // -------------------------------------------------------------------------
-    // 2. LIFECYCLE & ROUTING
+    // 3. SUPABASE SYNC LOGIC
+    // -------------------------------------------------------------------------
+    async function syncFromSupabase() {
+      if (!isSupabaseConnected || !supabaseClient) return;
+
+      try {
+        // Fetch Patients
+        const { data: pData, error: pErr } = await supabaseClient.from('patients').select('*');
+        if (!pErr && pData && pData.length > 0) {
+          patientsDB = pData.map(p => ({
+            id: p.id,
+            name: p.full_name,
+            phone: p.phone,
+            dob: p.dob,
+            gender: p.gender
+          }));
+        }
+
+        // Fetch Prescriptions & Joined Items
+        const { data: rxData, error: rxErr } = await supabaseClient
+          .from('prescriptions')
+          .select('*, prescription_items(*), patients(full_name, phone)');
+
+        if (!rxErr && rxData && rxData.length > 0) {
+          prescriptionsDB = rxData.map(rx => ({
+            id: rx.id,
+            patientId: rx.patient_id,
+            patientName: rx.patients ? rx.patients.full_name : 'Unknown Patient',
+            patientPhone: rx.patients ? rx.patients.phone : '',
+            doctorName: rx.doctor_name,
+            hospitalName: rx.hospital_name,
+            diagnosis: rx.diagnosis,
+            refillDueDate: rx.refill_due_date,
+            status: rx.status,
+            createdAt: new Date(rx.created_at).toISOString().split('T')[0],
+            items: (rx.prescription_items || []).map(item => ({
+              name: item.medicine_name,
+              dosage: item.dosage,
+              frequency: item.frequency,
+              duration: item.duration_days
+            }))
+          }));
+        }
+
+        saveData();
+        renderAppView();
+        showToast('Synced live data from Supabase!', 'info');
+      } catch (e) {
+        console.error('[MEDILINK] Supabase Sync Exception:', e);
+      }
+    }
+
+    async function syncPatientToSupabase(patient) {
+      if (!isSupabaseConnected || !supabaseClient) return;
+      try {
+        await supabaseClient.from('patients').insert([{
+          id: patient.id,
+          full_name: patient.name,
+          phone: patient.phone,
+          dob: patient.dob,
+          gender: patient.gender
+        }]);
+      } catch (e) {
+        console.error('[MEDILINK] Patient insert error:', e);
+      }
+    }
+
+    async function syncPrescriptionToSupabase(rx) {
+      if (!isSupabaseConnected || !supabaseClient) return;
+      try {
+        // 1. Insert Prescription Parent
+        const { error: rxErr } = await supabaseClient.from('prescriptions').insert([{
+          id: rx.id,
+          patient_id: rx.patientId,
+          hospital_name: rx.hospitalName,
+          doctor_name: rx.doctorName,
+          diagnosis: rx.diagnosis,
+          refill_due_date: rx.refillDueDate,
+          status: rx.status
+        }]);
+
+        if (rxErr) {
+          console.error('[MEDILINK] Supabase Rx parent error:', rxErr);
+          return;
+        }
+
+        // 2. Insert Prescription Child Items
+        const itemRows = rx.items.map(item => ({
+          prescription_id: rx.id,
+          medicine_name: item.name,
+          dosage: item.dosage,
+          frequency: item.frequency,
+          duration_days: item.duration
+        }));
+
+        await supabaseClient.from('prescription_items').insert(itemRows);
+      } catch (e) {
+        console.error('[MEDILINK] Prescription insert exception:', e);
+      }
+    }
+
+    async function syncDispenseToSupabase(rxId, pharmacyName, chemistName) {
+      if (!isSupabaseConnected || !supabaseClient) return;
+      try {
+        // 1. Update Prescription status
+        await supabaseClient
+          .from('prescriptions')
+          .update({ status: 'DISPENSED' })
+          .eq('id', rxId);
+
+        // 2. Insert Audit Log
+        await supabaseClient.from('dispense_logs').insert([{
+          prescription_id: rxId,
+          pharmacy_name: pharmacyName,
+          chemist_name: chemistName
+        }]);
+      } catch (e) {
+        console.error('[MEDILINK] Dispense update exception:', e);
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. ROUTING & LIFECYCLE
     // -------------------------------------------------------------------------
     window.onload = function() {
+      // Initialize Supabase if credentials are present
+      initSupabase();
+
       // Set default date picker
       document.getElementById('doc-refill-date').value = getFutureDateStr(14);
       
@@ -887,7 +1129,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // 3. DYNAMIC AUTHENTICATION SYSTEM (LOGIN / SIGNUP)
+    // 5. AUTHENTICATION ENGINE
     // -------------------------------------------------------------------------
     function openAuthModal(role, mode = 'login') {
       authTargetRole = role;
@@ -939,7 +1181,6 @@
       const email = document.getElementById('auth-email').value.trim();
       const orgName = document.getElementById('auth-org-name').value.trim() || (authTargetRole === 'doctor' ? 'City General Hospital' : 'CarePlus Pharmacy');
 
-      // Create session object
       currentUser = {
         id: 'usr-' + Date.now(),
         email: email,
@@ -998,7 +1239,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // 4. HOSPITAL DOCTOR WORKFLOW
+    // 6. HOSPITAL DOCTOR WORKFLOW
     // -------------------------------------------------------------------------
     function handleDoctorPatientSearch() {
       const query = document.getElementById('doc-patient-search').value.trim().toLowerCase();
@@ -1112,7 +1353,7 @@
       if (row) row.remove();
     }
 
-    function submitPrescription(autoPrint = false) {
+    async function submitPrescription(autoPrint = false) {
       if (!selectedPatient) {
         showToast('Please select or register a patient first!', 'error');
         document.getElementById('doc-patient-search').focus();
@@ -1140,8 +1381,11 @@
         return;
       }
 
+      // Generate UUID or standard RX ID
+      const newRxId = isSupabaseConnected ? crypto.randomUUID() : 'rx-' + Math.floor(1000 + Math.random() * 9000);
+
       const newRx = {
-        id: 'rx-' + Math.floor(1000 + Math.random() * 9000),
+        id: newRxId,
         patientId: selectedPatient.id,
         patientName: selectedPatient.name,
         patientPhone: selectedPatient.phone,
@@ -1156,11 +1400,16 @@
 
       prescriptionsDB.unshift(newRx);
       saveData();
+
+      // Sync to Supabase in background
+      if (isSupabaseConnected) {
+        await syncPrescriptionToSupabase(newRx);
+      }
+
       renderDoctorRxFeed();
+      showToast(`Prescription #${newRx.id.substr(0,8)} issued successfully!`, 'success');
 
-      showToast(`Prescription #${newRx.id} issued successfully!`, 'success');
-
-      // Trigger notification to Express Backend (if running)
+      // Trigger SMS Notification to Render Backend (optional microservice)
       triggerBackendSMSNotification(newRx);
 
       if (autoPrint) {
@@ -1171,7 +1420,10 @@
     }
 
     function triggerBackendSMSNotification(rx) {
-      fetch('https://medilink-backend-api.onrender.com', {
+      // Points to local backend or production Render URL
+      const RENDER_BACKEND_URL = 'https://medilink-backend-api.onrender.com/api/notify-refill';
+
+      fetch(RENDER_BACKEND_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1181,7 +1433,7 @@
           prescriptionId: rx.id
         })
       }).catch(() => {
-        // Backend optional / silently handle offline status
+        // Silently continue if backend notification API is offline
       });
     }
 
@@ -1217,7 +1469,7 @@
         <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 space-y-3 hover:border-sky-500/40 transition">
           <div class="flex items-start justify-between">
             <div>
-              <span class="font-mono text-xs font-bold text-sky-400">${rx.id}</span>
+              <span class="font-mono text-xs font-bold text-sky-400">#${rx.id.substr(0,8)}</span>
               <h4 class="font-bold text-white text-sm">${rx.patientName}</h4>
               <p class="text-xs text-slate-400 font-mono">Phone: ${rx.patientPhone}</p>
             </div>
@@ -1260,7 +1512,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // 5. CHEMIST PHARMACY WORKFLOW
+    // 7. CHEMIST PHARMACY WORKFLOW
     // -------------------------------------------------------------------------
     function quickFillSearch(phone) {
       document.getElementById('chemist-search-input').value = phone;
@@ -1333,7 +1585,7 @@
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700/80 pb-3">
             <div>
               <div class="flex items-center space-x-2">
-                <span class="font-mono text-xs font-bold text-emerald-400">${rx.id}</span>
+                <span class="font-mono text-xs font-bold text-emerald-400">#${rx.id.substr(0,8)}</span>
                 <span class="text-xs text-slate-400">| ${rx.hospitalName} (${rx.doctorName})</span>
               </div>
               <p class="text-xs text-slate-300 mt-0.5"><strong>Dx:</strong> ${rx.diagnosis}</p>
@@ -1399,11 +1651,12 @@
       `).join('');
     }
 
-    function dispensePrescription(rxId) {
+    async function dispensePrescription(rxId) {
       const rx = prescriptionsDB.find(r => r.id === rxId);
       if (!rx) return;
 
       const chemistOrg = currentUser ? currentUser.orgName : 'CarePlus Pharmacy';
+      const chemistName = currentUser ? currentUser.name : 'Chemist Counter';
 
       rx.status = 'DISPENSED';
       rx.dispensedAt = new Date().toISOString();
@@ -1417,13 +1670,17 @@
       });
 
       saveData();
-      showToast(`Prescription #${rx.id} fulfilled and dispensed!`, 'success');
 
+      if (isSupabaseConnected) {
+        await syncDispenseToSupabase(rx.id, chemistOrg, chemistName);
+      }
+
+      showToast(`Prescription #${rx.id.substr(0,8)} fulfilled and dispensed!`, 'success');
       executeChemistSearch();
     }
 
     // -------------------------------------------------------------------------
-    // 6. MODALS: PRINT & PATIENT CREATION
+    // 8. MODALS: PRINT & PATIENT REGISTRATION
     // -------------------------------------------------------------------------
     function openPrintModal(rxId) {
       const rx = prescriptionsDB.find(r => r.id === rxId);
@@ -1432,7 +1689,7 @@
       const patient = patientsDB.find(p => p.id === rx.patientId || p.phone === rx.patientPhone);
 
       document.getElementById('slip-hospital-name').innerText = rx.hospitalName.toUpperCase();
-      document.getElementById('slip-rx-id').innerText = '#' + rx.id;
+      document.getElementById('slip-rx-id').innerText = '#' + rx.id.substr(0,8).toUpperCase();
       document.getElementById('slip-date').innerText = 'Date: ' + rx.createdAt;
       document.getElementById('slip-patient-name').innerText = rx.patientName;
       document.getElementById('slip-patient-phone').innerText = rx.patientPhone;
@@ -1473,7 +1730,7 @@
       document.getElementById('modal-add-patient').classList.add('hidden');
     }
 
-    function handleCreatePatient(e) {
+    async function handleCreatePatient(e) {
       e.preventDefault();
       const name = document.getElementById('new-p-name').value.trim();
       const phone = document.getElementById('new-p-phone').value.trim();
@@ -1485,8 +1742,10 @@
         return;
       }
 
+      const newPatientId = isSupabaseConnected ? crypto.randomUUID() : 'p-' + Date.now();
+
       const newPatient = {
-        id: 'p-' + Date.now(),
+        id: newPatientId,
         name,
         phone,
         dob,
@@ -1495,13 +1754,18 @@
 
       patientsDB.push(newPatient);
       saveData();
+
+      if (isSupabaseConnected) {
+        await syncPatientToSupabase(newPatient);
+      }
+
       closeAddPatientModal();
       selectPatientForDoctor(newPatient.id);
       showToast(`Patient ${name} registered successfully!`, 'success');
     }
 
     // -------------------------------------------------------------------------
-    // 7. UTILITIES
+    // 9. UTILITIES & TOASTS
     // -------------------------------------------------------------------------
     function calculateAge(dobString) {
       if (!dobString) return '--';
@@ -1544,12 +1808,5 @@
       }, 3500);
     }
   </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co';
-  const SUPABASE_KEY = 'YOUR-ANON-KEY';
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-</script>
 </body>
 </html>
