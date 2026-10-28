@@ -1170,7 +1170,7 @@
     }
 
     function triggerBackendSMSNotification(rx) {
-      fetch('http://localhost:4000/api/notify-refill', {
+      fetch('https://medilink-backend-api.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
