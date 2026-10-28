@@ -724,11 +724,7 @@
   <!-- JAVASCRIPT APPLICATION LOGIC -->
   <!-- ========================================================================= -->
   <script>
-    // Inside index.html script tag
-    const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOi...YOUR-ACTUAL-ANON-KEY';
-
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
     // -------------------------------------------------------------------------
     // 1. STATE MANAGEMENT & SESSION CONTROL
     // -------------------------------------------------------------------------
@@ -1548,5 +1544,12 @@
       }, 3500);
     }
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co';
+  const SUPABASE_KEY = 'YOUR-ANON-KEY';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 </body>
 </html>
