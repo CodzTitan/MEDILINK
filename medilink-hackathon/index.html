@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-900">
+<html lang="en" class="h-full bg-slate-50">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -29,16 +29,16 @@
           colors: {
             medmitra: {
               50: '#f0f9f8',
-              100: '#eef9f7',
-              200: '#c2e9e0',
-              500: '#38b2a0',
-              600: '#2d9a89',
-              700: '#1a7a6a',
-              900: '#0f483f',
+              100: '#e0f2f1',
+              200: '#b2dfdb',
+              500: '#00897b',
+              600: '#00796b',
+              700: '#004d40',
+              900: '#00251a',
             },
             chemist: {
-              50: '#ecfdf5',
-              100: '#d1fae5',
+              50: '#f0fdf4',
+              100: '#dcfce7',
               500: '#10b981',
               600: '#059669',
               700: '#047857',
@@ -51,112 +51,111 @@
   </script>
 
   <style>
-    /* Custom Scrollbar */
+    /* Custom Scrollbar for Light Theme */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    /* Medmitra Specific Background Patterns & Auth Styles */
-    .bg-pattern {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 200px; z-index: 0;
-      opacity: 0.18; pointer-events: none;
+    /* Light Theme Background SVG Pattern */
+    .bg-pattern-light {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 220px; z-index: 0; opacity: 0.35; pointer-events: none;
     }
 
+    /* Auth Card Styling */
     .auth-card {
-      display: flex; width: 100%; max-width: 980px;
-      background: #ffffff; border-radius: 16px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-      overflow: hidden; min-height: 540px;
+      display: flex; width: 100%; max-width: 960px;
+      background: #ffffff; border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0; overflow: hidden; min-height: 520px;
     }
 
     .left-panel {
       flex: 1; padding: 3rem 2.5rem;
       display: flex; flex-direction: column; justify-content: center;
       position: relative;
-      background: linear-gradient(135deg, #fafffe 0%, #f5faf9 100%);
+      background: linear-gradient(135deg, #f7fdfc 0%, #edf7f6 100%);
+      border-right: 1px solid #e2e8f0;
     }
 
     .brand-title {
       font-family: 'Playfair Display', serif;
-      font-size: 2.8rem; font-weight: 400; color: #a4b3b0; line-height: 1.1;
+      font-size: 2.8rem; font-weight: 400; color: #64748b; line-height: 1.1;
     }
-
     .brand-title span {
-      display: block; font-weight: 700; color: #38b2a0; font-size: 2.8rem;
+      display: block; font-weight: 800; color: #00897b; font-size: 2.8rem;
     }
 
     .right-panel {
       flex: 1; padding: 3rem 2.5rem;
       display: flex; flex-direction: column; justify-content: center;
-      background: #ffffff; color: #333333;
+      background: #ffffff; color: #1e293b;
     }
 
     .role-btn {
       display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.55rem 1.2rem; border: 2px solid #ddd;
-      border-radius: 25px; background: #fff;
-      font-size: 0.82rem; font-weight: 600; color: #777;
-      cursor: pointer; transition: all 0.25s ease;
+      padding: 0.55rem 1.25rem; border: 1.5px solid #cbd5e1;
+      border-radius: 25px; background: #ffffff;
+      font-size: 0.82rem; font-weight: 600; color: #64748b;
+      cursor: pointer; transition: all 0.2s ease;
     }
-    .role-btn:hover { border-color: #38b2a0; color: #38b2a0; }
-    .role-btn.active { border-color: #38b2a0; background: #eef9f7; color: #38b2a0; }
+    .role-btn:hover { border-color: #00897b; color: #00897b; background: #f0f9f8; }
+    .role-btn.active { border-color: #00897b; background: #e0f2f1; color: #004d40; font-weight: 700; }
 
     #auth-area .form-group input, #auth-area .form-group select {
-      width: 100%; border: none; border-bottom: 1.5px solid #ddd;
-      padding: 0.75rem 0.25rem; font-size: 0.9rem; color: #333;
+      width: 100%; border: none; border-bottom: 1.5px solid #cbd5e1;
+      padding: 0.75rem 0.25rem; font-size: 0.9rem; color: #0f172a;
       background: transparent; outline: none; transition: border-color 0.3s ease;
       font-family: 'Inter', sans-serif;
     }
-    #auth-area .form-group input::placeholder { color: #bbb; font-size: 0.85rem; }
-    #auth-area .form-group input:focus { border-bottom-color: #38b2a0; }
-    #auth-area .form-group input[aria-invalid="true"] { border-bottom-color: #e74c3c; }
+    #auth-area .form-group input::placeholder { color: #94a3b8; font-size: 0.85rem; }
+    #auth-area .form-group input:focus { border-bottom-color: #00897b; }
+    #auth-area .form-group input[aria-invalid="true"] { border-bottom-color: #ef4444; }
 
-    .error-text { font-size: 0.72rem; color: #e74c3c; margin-top: 0.3rem; display: none; }
+    .error-text { font-size: 0.72rem; color: #ef4444; margin-top: 0.3rem; display: none; }
     .error-text.visible { display: block; }
 
     .btn-login {
       flex: 1; padding: 0.85rem 1.5rem; border: none; border-radius: 25px;
-      background: #38b2a0; color: #fff; font-size: 0.9rem; font-weight: 600;
-      cursor: pointer; transition: all 0.3s ease;
+      background: #00897b; color: #ffffff; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,137,123,0.25);
     }
-    .btn-login:hover { background: #2d9a89; box-shadow: 0 4px 15px rgba(56,178,160,0.35); }
+    .btn-login:hover { background: #00796b; box-shadow: 0 6px 18px rgba(0,137,123,0.35); }
 
     .btn-signup {
-      flex: 1; padding: 0.85rem 1.5rem; border: 2px solid #38b2a0; border-radius: 25px;
-      background: transparent; color: #38b2a0; font-size: 0.9rem; font-weight: 600;
+      flex: 1; padding: 0.85rem 1.5rem; border: 2px solid #00897b; border-radius: 25px;
+      background: transparent; color: #00897b; font-size: 0.9rem; font-weight: 700;
       cursor: pointer; transition: all 0.3s ease;
     }
-    .btn-signup:hover { background: #eef9f7; }
+    .btn-signup:hover { background: #e0f2f1; }
 
     .status-msg {
-      padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.82rem;
+      padding: 0.7rem 1rem; border-radius: 10px; font-size: 0.82rem;
       margin-bottom: 1rem; display: none; align-items: center; gap: 0.5rem;
     }
     .status-msg.visible { display: flex; }
-    .status-msg.success { background: #eef9f7; color: #1a7a6a; border: 1px solid #c2e9e0; }
-    .status-msg.error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .status-msg.success { background: #e0f2f1; color: #004d40; border: 1px solid #b2dfdb; }
+    .status-msg.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 
     .modal-overlay {
       position: fixed; inset: 0; z-index: 100;
       display: none; align-items: center; justify-content: center; padding: 1rem;
     }
     .modal-overlay.open { display: flex; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); }
     .modal-panel {
-      position: relative; background: #fff; color: #333;
-      border-radius: 16px; padding: 2rem; width: 100%; max-width: 420px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3); z-index: 1;
+      position: relative; background: #ffffff; color: #0f172a;
+      border-radius: 20px; padding: 2rem; width: 100%; max-width: 420px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); z-index: 1; border: 1px solid #e2e8f0;
     }
     .otp-boxes { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; }
     .otp-boxes input {
-      width: 44px; height: 52px; border: 1.5px solid #ddd !important;
+      width: 44px; height: 52px; border: 1.5px solid #cbd5e1 !important;
       border-radius: 10px; text-align: center; font-size: 1.2rem; font-weight: 700;
-      color: #333; outline: none; background: #fafafa;
+      color: #0f172a; outline: none; background: #f8fafc;
     }
-    .otp-boxes input:focus { border-color: #38b2a0 !important; background: #fff; }
+    .otp-boxes input:focus { border-color: #00897b !important; background: #ffffff; }
 
     /* Print Specific Styles */
     @media print {
@@ -172,59 +171,59 @@
 
     @media (max-width: 768px) {
       .auth-card { flex-direction: column; max-width: 440px; }
-      .left-panel { padding: 2rem 1.5rem 1.5rem; text-align: center; }
+      .left-panel { padding: 2rem 1.5rem 1.5rem; text-align: center; border-right: none; border-bottom: 1px solid #e2e8f0; }
       .right-panel { padding: 1.5rem 1.5rem 2rem; }
       .brand-title, .brand-title span { font-size: 2.2rem; }
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-teal-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-teal-500 selection:text-white">
 
-  <!-- Background SVG pattern -->
-  <svg class="bg-pattern" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <g stroke="#38b2a0" stroke-width="0.8" fill="none">
-      <circle cx="100" cy="120" r="4" fill="#38b2a0" opacity="0.3"/>
-      <circle cx="250" cy="80" r="3" fill="#38b2a0" opacity="0.25"/>
-      <circle cx="400" cy="150" r="5" fill="#38b2a0" opacity="0.2"/>
-      <circle cx="550" cy="60" r="3.5" fill="#38b2a0" opacity="0.3"/>
-      <circle cx="700" cy="130" r="4" fill="#38b2a0" opacity="0.25"/>
-      <circle cx="850" cy="90" r="3" fill="#38b2a0" opacity="0.2"/>
-      <circle cx="1000" cy="160" r="5" fill="#38b2a0" opacity="0.3"/>
-      <circle cx="1150" cy="70" r="3.5" fill="#38b2a0" opacity="0.25"/>
-      <circle cx="1300" cy="110" r="4" fill="#38b2a0" opacity="0.2"/>
-      <line x1="100" y1="120" x2="250" y2="80" opacity="0.15"/>
-      <line x1="250" y1="80" x2="400" y2="150" opacity="0.12"/>
-      <line x1="400" y1="150" x2="550" y2="60" opacity="0.15"/>
-      <line x1="550" y1="60" x2="700" y2="130" opacity="0.12"/>
-      <line x1="700" y1="130" x2="850" y2="90" opacity="0.15"/>
-      <line x1="850" y1="90" x2="1000" y2="160" opacity="0.12"/>
-      <line x1="1000" y1="160" x2="1150" y2="70" opacity="0.15"/>
-      <line x1="1150" y1="70" x2="1300" y2="110" opacity="0.12"/>
+  <!-- Background SVG pattern (Light Mode) -->
+  <svg class="bg-pattern-light" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#00897b" stroke-width="0.7" fill="none">
+      <circle cx="100" cy="120" r="4" fill="#00897b" opacity="0.25"/>
+      <circle cx="250" cy="80" r="3" fill="#00897b" opacity="0.2"/>
+      <circle cx="400" cy="150" r="5" fill="#00897b" opacity="0.18"/>
+      <circle cx="550" cy="60" r="3.5" fill="#00897b" opacity="0.22"/>
+      <circle cx="700" cy="130" r="4" fill="#00897b" opacity="0.2"/>
+      <circle cx="850" cy="90" r="3" fill="#00897b" opacity="0.18"/>
+      <circle cx="1000" cy="160" r="5" fill="#00897b" opacity="0.25"/>
+      <circle cx="1150" cy="70" r="3.5" fill="#00897b" opacity="0.2"/>
+      <circle cx="1300" cy="110" r="4" fill="#00897b" opacity="0.18"/>
+      <line x1="100" y1="120" x2="250" y2="80" opacity="0.12"/>
+      <line x1="250" y1="80" x2="400" y2="150" opacity="0.1"/>
+      <line x1="400" y1="150" x2="550" y2="60" opacity="0.12"/>
+      <line x1="550" y1="60" x2="700" y2="130" opacity="0.1"/>
+      <line x1="700" y1="130" x2="850" y2="90" opacity="0.12"/>
+      <line x1="850" y1="90" x2="1000" y2="160" opacity="0.1"/>
+      <line x1="1000" y1="160" x2="1150" y2="70" opacity="0.12"/>
+      <line x1="1150" y1="70" x2="1300" y2="110" opacity="0.1"/>
     </g>
   </svg>
 
   <!-- ========================================================================= -->
-  <!-- GLOBAL HEADER / NAVIGATION BAR -->
+  <!-- GLOBAL HEADER / NAVIGATION BAR (LIGHT THEME) -->
   <!-- ========================================================================= -->
-  <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+  <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Brand Logo -->
       <div class="flex items-center space-x-3 cursor-pointer" onclick="handleLogoClick()">
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-teal-500 via-emerald-500 to-sky-400 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-teal-500/20">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-teal-600 via-emerald-600 to-teal-400 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-teal-600/20">
           <i class="fa-solid fa-heart-pulse"></i>
         </div>
         <div>
-          <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-teal-300 bg-clip-text text-transparent">Medmitra</span>
-          <span class="block text-[10px] font-mono tracking-wider text-teal-400 uppercase -mt-1 font-semibold">MEDILINK Rx Network</span>
+          <span class="text-xl font-extrabold tracking-tight text-slate-900">Medmitra</span>
+          <span class="block text-[10px] font-mono tracking-wider text-teal-700 uppercase -mt-1 font-bold">MEDILINK Rx Network</span>
         </div>
       </div>
 
       <!-- Database Connection Status & Settings -->
-      <div class="hidden md:flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs">
-        <span id="db-status-dot" class="h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-        <span id="db-status-text" class="text-slate-300 font-mono text-[11px]">Demo Local Storage</span>
-        <button onclick="openSupabaseModal()" title="Configure Supabase Keys" class="text-slate-400 hover:text-teal-400 ml-1 transition">
+      <div class="hidden md:flex items-center space-x-2 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs">
+        <span id="db-status-dot" class="h-2.5 w-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+        <span id="db-status-text" class="text-slate-700 font-mono text-[11px] font-medium">Demo Local Storage</span>
+        <button onclick="openSupabaseModal()" title="Configure Supabase Keys" class="text-slate-400 hover:text-teal-700 ml-1 transition">
           <i class="fa-solid fa-gear"></i>
         </button>
       </div>
@@ -237,7 +236,7 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 1: LANDING & AUTHENTICATION VIEW -->
+  <!-- SECTION 1: LANDING & AUTHENTICATION VIEW (LIGHT THEME) -->
   <!-- ========================================================================= -->
   <section id="view-landing" class="flex-1 flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative z-10">
     
@@ -250,7 +249,7 @@
             Medmitra
             <span>Healthcare</span>
           </h1>
-          <p class="text-xs sm:text-sm text-slate-500 mt-3 leading-relaxed max-w-xs">
+          <p class="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed max-w-xs font-medium">
             Medmitra connects doctors, pharmacists, and patients—verified professionals, paperless prescriptions, and zero-friction refill verification.
           </p>
           
@@ -258,24 +257,24 @@
             <div class="absolute w-48 h-48 rounded-full bg-teal-500/10 blur-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
             <svg viewBox="0 0 500 320" class="w-full max-w-[280px] h-auto relative z-10" xmlns="http://www.w3.org/2000/svg">
               <g transform="translate(60,40)">
-                <rect x="15" y="120" width="50" height="80" rx="6" fill="#5ba4cf"/>
-                <rect x="15" y="190" width="22" height="90" rx="4" fill="#3b7fb5"/>
-                <rect x="43" y="190" width="22" height="90" rx="4" fill="#3b7fb5"/>
+                <rect x="15" y="120" width="50" height="80" rx="6" fill="#00897b"/>
+                <rect x="15" y="190" width="22" height="90" rx="4" fill="#004d40"/>
+                <rect x="43" y="190" width="22" height="90" rx="4" fill="#004d40"/>
                 <rect x="30" y="105" width="20" height="20" rx="4" fill="#f5c6a0"/>
                 <circle cx="40" cy="85" r="28" fill="#f5c6a0"/>
                 <path d="M12 80 Q12 52 40 48 Q68 52 68 80 Q68 65 40 62 Q12 65 12 80Z" fill="#5a3825"/>
               </g>
               <g transform="translate(180,20)">
-                <rect x="10" y="130" width="65" height="90" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
-                <rect x="28" y="130" width="30" height="25" rx="3" fill="#38b2a0"/>
+                <rect x="10" y="130" width="65" height="90" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+                <rect x="28" y="130" width="30" height="25" rx="3" fill="#10b981"/>
                 <rect x="32" y="112" width="20" height="22" rx="4" fill="#f5c6a0"/>
                 <circle cx="42" cy="90" r="30" fill="#f5c6a0"/>
                 <path d="M12 82 Q12 52 42 46 Q72 52 72 82 Q72 62 42 58 Q12 62 12 82Z" fill="#c8a055"/>
-                <rect x="24" y="82" width="14" height="12" rx="3" fill="none" stroke="#555" stroke-width="1.8"/>
-                <rect x="44" y="82" width="14" height="12" rx="3" fill="none" stroke="#555" stroke-width="1.8"/>
+                <rect x="24" y="82" width="14" height="12" rx="3" fill="none" stroke="#475569" stroke-width="1.8"/>
+                <rect x="44" y="82" width="14" height="12" rx="3" fill="none" stroke="#475569" stroke-width="1.8"/>
               </g>
               <g transform="translate(300,30)">
-                <rect x="15" y="125" width="50" height="80" rx="6" fill="#8ba8d4"/>
+                <rect x="15" y="125" width="50" height="80" rx="6" fill="#0284c7"/>
                 <rect x="30" y="108" width="18" height="20" rx="4" fill="#f5c6a0"/>
                 <circle cx="40" cy="88" r="27" fill="#f5c6a0"/>
                 <path d="M13 85 Q10 55 40 48 Q70 55 67 85" fill="#3a2515"/>
@@ -286,13 +285,13 @@
 
         <!-- Right Panel: Auth Form & Role Selector -->
         <div class="right-panel">
-          <h2 class="font-jakarta text-2xl font-extrabold text-slate-700 tracking-wider uppercase text-center">Medmitra</h2>
-          <p class="text-xs text-slate-400 text-center mt-1 mb-6" id="form-subtitle">Welcome back! Please login to your account.</p>
+          <h2 class="font-jakarta text-2xl font-extrabold text-slate-800 tracking-wider uppercase text-center">Medmitra</h2>
+          <p class="text-xs text-slate-500 text-center mt-1 mb-6 font-medium" id="form-subtitle">Welcome back! Please login to your account.</p>
 
           <!-- Role selector -->
           <div class="flex justify-center gap-3 mb-6" id="role-group">
             <button type="button" class="role-btn active" data-role="doctor" onclick="selectRole('doctor')">
-              <i class="fa-solid fa-user-doctor text-teal-500"></i> Doctor
+              <i class="fa-solid fa-user-doctor text-teal-600"></i> Doctor
             </button>
             <button type="button" class="role-btn" data-role="pharmacist" onclick="selectRole('pharmacist')">
               <i class="fa-solid fa-prescription-bottle-medical"></i> Pharmacist
@@ -305,14 +304,14 @@
           <!-- Dynamic Auth Area -->
           <div id="auth-area"></div>
 
-          <!-- Hackathon One-Click Demo Mode Quick Links -->
-          <div class="mt-6 pt-4 border-t border-slate-100 text-center space-y-2">
-            <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">⚡ Hackathon One-Click Demo Mode</span>
+          <!-- Quick Demo Mode Quick Links -->
+          <div class="mt-6 pt-4 border-t border-slate-200 text-center space-y-2">
+            <span class="text-[11px] font-mono text-slate-500 uppercase tracking-wider font-bold">⚡ Hackathon One-Click Demo Mode</span>
             <div class="flex items-center justify-center gap-2">
-              <button onclick="loginAsDemo('doctor')" class="px-3 py-1.5 bg-sky-900/10 hover:bg-sky-900/20 text-sky-600 rounded-lg text-xs font-bold transition flex items-center space-x-1 border border-sky-200">
+              <button onclick="loginAsDemo('doctor')" class="px-3.5 py-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 border border-sky-200 shadow-2xs">
                 <i class="fa-solid fa-user-doctor"></i><span>Demo Doctor</span>
               </button>
-              <button onclick="loginAsDemo('pharmacist')" class="px-3 py-1.5 bg-teal-900/10 hover:bg-teal-900/20 text-teal-600 rounded-lg text-xs font-bold transition flex items-center space-x-1 border border-teal-200">
+              <button onclick="loginAsDemo('pharmacist')" class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 border border-emerald-200 shadow-2xs">
                 <i class="fa-solid fa-store"></i><span>Demo Pharmacist</span>
               </button>
             </div>
@@ -325,36 +324,36 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 2: HOSPITAL / DOCTOR PORTAL -->
+  <!-- SECTION 2: HOSPITAL / DOCTOR PORTAL (LIGHT THEME) -->
   <!-- ========================================================================= -->
   <main id="view-hospital" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
     
     <!-- DASHBOARD STATS BANNER -->
-    <div class="bg-gradient-to-r from-slate-800 via-slate-800 to-teal-950/40 rounded-2xl border border-slate-700/80 p-5 shadow-xl">
+    <div class="bg-gradient-to-r from-teal-700 via-teal-800 to-emerald-800 rounded-2xl p-6 text-white shadow-lg space-y-4">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-hospital text-teal-400"></i>
+          <h1 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <i class="fa-solid fa-hospital text-teal-200"></i>
             <span>Doctor Prescription Portal</span>
           </h1>
-          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
-            Issue digital prescriptions, set automatic refill schedules, and generate printable slips.
+          <p class="text-xs sm:text-sm text-teal-100 mt-1 font-medium">
+            Issue paperless prescriptions, schedule automatic refill alerts, and export printable slips.
           </p>
         </div>
 
         <!-- Live Stats Counters -->
         <div class="flex items-center space-x-3 sm:space-x-4">
-          <div class="bg-slate-900/90 border border-slate-700/70 rounded-xl px-3.5 py-2 text-center min-w-[90px]">
-            <span id="stat-active-rx" class="block text-lg font-extrabold text-teal-400 font-mono">0</span>
-            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Active Rx</span>
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2 text-center min-w-[95px]">
+            <span id="stat-active-rx" class="block text-xl font-extrabold text-white font-mono">0</span>
+            <span class="text-[10px] font-bold text-teal-100 uppercase tracking-wider">Active Rx</span>
           </div>
-          <div class="bg-slate-900/90 border border-slate-700/70 rounded-xl px-3.5 py-2 text-center min-w-[90px]">
-            <span id="stat-dispensed" class="block text-lg font-extrabold text-emerald-400 font-mono">0</span>
-            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Dispensed</span>
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2 text-center min-w-[95px]">
+            <span id="stat-dispensed" class="block text-xl font-extrabold text-emerald-200 font-mono">0</span>
+            <span class="text-[10px] font-bold text-teal-100 uppercase tracking-wider">Dispensed</span>
           </div>
-          <div class="bg-slate-900/90 border border-slate-700/70 rounded-xl px-3.5 py-2 text-center min-w-[90px]">
-            <span id="stat-patients" class="block text-lg font-extrabold text-purple-400 font-mono">0</span>
-            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Patients</span>
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2 text-center min-w-[95px]">
+            <span id="stat-patients" class="block text-xl font-extrabold text-teal-100 font-mono">0</span>
+            <span class="text-[10px] font-bold text-teal-100 uppercase tracking-wider">Patients</span>
           </div>
         </div>
       </div>
@@ -365,21 +364,21 @@
 
       <!-- LEFT COLUMN: PRESCRIPTION BUILDER FORM -->
       <div class="lg:col-span-7 space-y-6">
-        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 sm:p-6 shadow-xl space-y-5">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
           
-          <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
-            <h2 class="text-base sm:text-lg font-bold text-white flex items-center space-x-2">
-              <i class="fa-solid fa-file-signature text-teal-400"></i>
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800 flex items-center space-x-2">
+              <i class="fa-solid fa-file-signature text-teal-600"></i>
               <span>Create Express Prescription</span>
             </h2>
-            <span class="text-xs bg-teal-500/10 text-teal-400 px-2.5 py-1 rounded-full font-mono border border-teal-500/20">
+            <span class="text-xs bg-teal-50 text-teal-700 px-2.5 py-1 rounded-full font-mono font-bold border border-teal-200">
               <i class="fa-solid fa-bolt mr-1"></i>20s Speed Entry
             </span>
           </div>
 
           <!-- STEP 1: PATIENT SEARCH OR REGISTER -->
           <div class="space-y-3">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">
               1. Patient Identification
             </label>
             
@@ -387,34 +386,34 @@
               <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                 <div class="relative flex-1">
                   <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
-                  <input type="text" id="doc-patient-search" onkeyup="handleDoctorPatientSearch()" placeholder="Search patient by phone (e.g., 9876543210) or name..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition">
+                  <input type="text" id="doc-patient-search" onkeyup="handleDoctorPatientSearch()" placeholder="Search patient by phone (e.g., 9876543210) or name..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:bg-white transition">
                 </div>
-                <button onclick="openAddPatientModal()" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-lg shadow-teal-600/20 whitespace-nowrap">
+                <button onclick="openAddPatientModal()" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-md shadow-teal-600/20 whitespace-nowrap">
                   <i class="fa-solid fa-user-plus"></i>
                   <span>+ New Patient</span>
                 </button>
               </div>
 
               <!-- Search Autocomplete Dropdown -->
-              <div id="patient-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-30 max-h-48 overflow-y-auto divide-y divide-slate-800">
+              <div id="patient-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-48 overflow-y-auto divide-y divide-slate-100">
                 <!-- JS Rendered -->
               </div>
             </div>
 
             <!-- Selected Patient Summary Badge -->
-            <div id="selected-patient-card" class="hidden bg-slate-900/90 border border-teal-500/40 rounded-xl p-3.5 flex items-center justify-between">
+            <div id="selected-patient-card" class="hidden bg-teal-50/70 border border-teal-200 rounded-xl p-3.5 flex items-center justify-between">
               <div class="flex items-center space-x-3">
-                <div class="h-10 w-10 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-base border border-teal-500/30">
+                <div class="h-10 w-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-base shadow-xs">
                   <i class="fa-solid fa-user"></i>
                 </div>
                 <div>
-                  <h4 id="sp-name" class="font-bold text-white text-sm">--</h4>
-                  <p class="text-xs text-slate-400 font-mono">
-                    Phone: <span id="sp-phone" class="text-slate-200">--</span> | Age: <span id="sp-age" class="text-slate-200">--</span> | Gender: <span id="sp-gender" class="text-slate-200">--</span>
+                  <h4 id="sp-name" class="font-bold text-slate-900 text-sm">--</h4>
+                  <p class="text-xs text-slate-600 font-mono">
+                    Phone: <span id="sp-phone" class="text-slate-900 font-semibold">--</span> | Age: <span id="sp-age" class="text-slate-900 font-semibold">--</span> | Gender: <span id="sp-gender" class="text-slate-900 font-semibold">--</span>
                   </p>
                 </div>
               </div>
-              <button onclick="clearSelectedPatient()" class="text-slate-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-slate-800 transition">
+              <button onclick="clearSelectedPatient()" class="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-white transition">
                 <i class="fa-solid fa-xmark"></i>
               </button>
             </div>
@@ -423,21 +422,21 @@
           <!-- STEP 2: DIAGNOSIS & REFILL INTERVAL -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Diagnosis / Medical Notes
               </label>
-              <input type="text" id="doc-diagnosis" placeholder="e.g. Type 2 Diabetes & Hypertension" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition">
+              <input type="text" id="doc-diagnosis" placeholder="e.g. Type 2 Diabetes & Hypertension" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:bg-white transition">
             </div>
 
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Refill Due Date
               </label>
               <div class="flex items-center space-x-1.5">
-                <input type="date" id="doc-refill-date" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500 transition flex-1">
-                <button type="button" onclick="setRefillDays(7)" class="px-2 py-2 text-xs bg-slate-700 hover:bg-slate-600 rounded-lg font-medium text-slate-200 transition">+7d</button>
-                <button type="button" onclick="setRefillDays(14)" class="px-2 py-2 text-xs bg-teal-600 hover:bg-teal-500 rounded-lg font-medium text-white transition">+14d</button>
-                <button type="button" onclick="setRefillDays(30)" class="px-2 py-2 text-xs bg-slate-700 hover:bg-slate-600 rounded-lg font-medium text-slate-200 transition">+30d</button>
+                <input type="date" id="doc-refill-date" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-teal-600 focus:bg-white transition flex-1">
+                <button type="button" onclick="setRefillDays(7)" class="px-2 py-2 text-xs bg-slate-200 hover:bg-slate-300 rounded-lg font-bold text-slate-700 transition">+7d</button>
+                <button type="button" onclick="setRefillDays(14)" class="px-2 py-2 text-xs bg-teal-600 hover:bg-teal-700 rounded-lg font-bold text-white transition">+14d</button>
+                <button type="button" onclick="setRefillDays(30)" class="px-2 py-2 text-xs bg-slate-200 hover:bg-slate-300 rounded-lg font-bold text-slate-700 transition">+30d</button>
               </div>
             </div>
           </div>
@@ -445,31 +444,31 @@
           <!-- STEP 3: SPEED MEDICINE TAG CHIPS -->
           <div>
             <div class="flex items-center justify-between mb-2">
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">
                 Quick-Add Common Medicines
               </label>
-              <span class="text-[10px] text-slate-400">Click to append</span>
+              <span class="text-[10px] text-slate-500 font-medium">Click to append</span>
             </div>
             
             <div class="flex flex-wrap gap-1.5">
-              <button type="button" onclick="quickAddMedicine('Metformin', '500mg', '1-0-1 (Morning & Night)', 14)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-teal-950 border border-slate-700 rounded-lg text-slate-300 hover:text-teal-300 transition flex items-center space-x-1">
-                <i class="fa-solid fa-plus text-[10px] text-teal-400"></i>
+              <button type="button" onclick="quickAddMedicine('Metformin', '500mg', '1-0-1 (Morning & Night)', 14)" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-teal-50 border border-slate-300 rounded-lg text-slate-700 hover:text-teal-700 hover:border-teal-300 font-medium transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-teal-600"></i>
                 <span>Metformin 500mg</span>
               </button>
-              <button type="button" onclick="quickAddMedicine('Amlodipine', '5mg', '1-0-0 (Morning)', 14)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-teal-950 border border-slate-700 rounded-lg text-slate-300 hover:text-teal-300 transition flex items-center space-x-1">
-                <i class="fa-solid fa-plus text-[10px] text-teal-400"></i>
+              <button type="button" onclick="quickAddMedicine('Amlodipine', '5mg', '1-0-0 (Morning)', 14)" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-teal-50 border border-slate-300 rounded-lg text-slate-700 hover:text-teal-700 hover:border-teal-300 font-medium transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-teal-600"></i>
                 <span>Amlodipine 5mg</span>
               </button>
-              <button type="button" onclick="quickAddMedicine('Paracetamol', '650mg', '1-0-1 (After meals)', 5)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-teal-950 border border-slate-700 rounded-lg text-slate-300 hover:text-teal-300 transition flex items-center space-x-1">
-                <i class="fa-solid fa-plus text-[10px] text-teal-400"></i>
+              <button type="button" onclick="quickAddMedicine('Paracetamol', '650mg', '1-0-1 (After meals)', 5)" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-teal-50 border border-slate-300 rounded-lg text-slate-700 hover:text-teal-700 hover:border-teal-300 font-medium transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-teal-600"></i>
                 <span>Paracetamol 650mg</span>
               </button>
-              <button type="button" onclick="quickAddMedicine('Atorvastatin', '10mg', '0-0-1 (Night)', 30)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-teal-950 border border-slate-700 rounded-lg text-slate-300 hover:text-teal-300 transition flex items-center space-x-1">
-                <i class="fa-solid fa-plus text-[10px] text-teal-400"></i>
+              <button type="button" onclick="quickAddMedicine('Atorvastatin', '10mg', '0-0-1 (Night)', 30)" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-teal-50 border border-slate-300 rounded-lg text-slate-700 hover:text-teal-700 hover:border-teal-300 font-medium transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-teal-600"></i>
                 <span>Atorvastatin 10mg</span>
               </button>
-              <button type="button" onclick="quickAddMedicine('Omeprazole', '20mg', '1-0-0 (Before breakfast)', 14)" class="px-2.5 py-1 text-xs bg-slate-900 hover:bg-teal-950 border border-slate-700 rounded-lg text-slate-300 hover:text-teal-300 transition flex items-center space-x-1">
-                <i class="fa-solid fa-plus text-[10px] text-teal-400"></i>
+              <button type="button" onclick="quickAddMedicine('Omeprazole', '20mg', '1-0-0 (Before breakfast)', 14)" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-teal-50 border border-slate-300 rounded-lg text-slate-700 hover:text-teal-700 hover:border-teal-300 font-medium transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[10px] text-teal-600"></i>
                 <span>Omeprazole 20mg</span>
               </button>
             </div>
@@ -478,18 +477,18 @@
           <!-- STEP 4: MEDICINE DYNAMIC TABLE -->
           <div class="space-y-2">
             <div class="flex items-center justify-between">
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">
                 Prescribed Medicines List
               </label>
-              <button type="button" onclick="addEmptyMedicineRow()" class="text-xs text-teal-400 hover:text-teal-300 font-semibold flex items-center space-x-1">
+              <button type="button" onclick="addEmptyMedicineRow()" class="text-xs text-teal-700 hover:text-teal-800 font-bold flex items-center space-x-1">
                 <i class="fa-solid fa-circle-plus"></i>
                 <span>Add Custom Row</span>
               </button>
             </div>
 
-            <div class="bg-slate-900 rounded-xl border border-slate-700 overflow-x-auto">
-              <table class="w-full text-left text-xs text-slate-300 min-w-[500px]">
-                <thead class="bg-slate-800/80 uppercase font-semibold text-[10px] text-slate-400 border-b border-slate-700">
+            <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-700 min-w-[500px]">
+                <thead class="bg-slate-100 uppercase font-bold text-[10px] text-slate-600 border-b border-slate-200">
                   <tr>
                     <th class="py-2.5 px-3">Medicine Name</th>
                     <th class="py-2.5 px-3">Dosage</th>
@@ -498,7 +497,7 @@
                     <th class="py-2.5 px-2 text-center w-10"></th>
                   </tr>
                 </thead>
-                <tbody id="medicine-table-body" class="divide-y divide-slate-800">
+                <tbody id="medicine-table-body" class="divide-y divide-slate-200 bg-white">
                   <!-- Dynamic Rows -->
                 </tbody>
               </table>
@@ -506,11 +505,11 @@
           </div>
 
           <!-- SUBMIT ACTIONS -->
-          <div class="pt-3 border-t border-slate-700/80 flex items-center justify-between">
-            <button type="button" onclick="resetDoctorForm()" class="px-3.5 py-2 rounded-xl border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
+          <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+            <button type="button" onclick="resetDoctorForm()" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition">
               Clear
             </button>
-            <button type="button" onclick="submitPrescription(true)" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs shadow-lg shadow-teal-600/30 flex items-center space-x-2 transition">
+            <button type="button" onclick="submitPrescription(true)" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md shadow-teal-600/20 flex items-center space-x-2 transition">
               <i class="fa-solid fa-print"></i>
               <span>Issue & Print Slip</span>
             </button>
@@ -521,22 +520,22 @@
 
       <!-- RIGHT COLUMN: ISSUED PRESCRIPTIONS FEED -->
       <div class="lg:col-span-5 space-y-6">
-        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 shadow-xl space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
-            <h3 class="text-base font-bold text-white flex items-center space-x-2">
-              <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <h3 class="text-base font-bold text-slate-800 flex items-center space-x-2">
+              <i class="fa-solid fa-clock-rotate-left text-teal-600"></i>
               <span>Recent Prescriptions</span>
             </h3>
-            <span id="doc-rx-count-badge" class="text-xs font-mono bg-slate-900 px-2.5 py-1 rounded-full text-slate-300 border border-slate-700">
+            <span id="doc-rx-count-badge" class="text-xs font-mono font-bold bg-slate-100 px-2.5 py-1 rounded-full text-slate-600 border border-slate-200">
               0 Records
             </span>
           </div>
 
           <!-- Filter Tabs -->
-          <div class="flex space-x-2 border-b border-slate-700/60 pb-3">
-            <button onclick="filterDocRxList('ALL')" id="doc-filter-all" class="px-3 py-1 rounded-lg text-xs font-medium bg-teal-500/20 text-teal-300 border border-teal-500/30">All</button>
-            <button onclick="filterDocRxList('ACTIVE')" id="doc-filter-active" class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-slate-200">Active</button>
-            <button onclick="filterDocRxList('DISPENSED')" id="doc-filter-dispensed" class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-slate-200">Dispensed</button>
+          <div class="flex space-x-2 border-b border-slate-200 pb-3">
+            <button onclick="filterDocRxList('ALL')" id="doc-filter-all" class="px-3 py-1 rounded-lg text-xs font-bold bg-teal-50 text-teal-700 border border-teal-200">All</button>
+            <button onclick="filterDocRxList('ACTIVE')" id="doc-filter-active" class="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Active</button>
+            <button onclick="filterDocRxList('DISPENSED')" id="doc-filter-dispensed" class="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Dispensed</button>
           </div>
 
           <!-- Feed Container -->
@@ -550,40 +549,40 @@
   </main>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 3: CHEMIST / PHARMACIST PORTAL (ENHANCED PHARMACY COUNTER) -->
+  <!-- SECTION 3: CHEMIST / PHARMACIST PORTAL (LIGHT THEME) -->
   <!-- ========================================================================= -->
   <main id="view-chemist" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
     
     <!-- CHEMIST COUNTER STATS BANNER -->
-    <div class="bg-gradient-to-r from-emerald-950/90 via-slate-800 to-slate-800 rounded-2xl border border-emerald-500/30 p-5 sm:p-6 shadow-2xl space-y-5">
+    <div class="bg-gradient-to-r from-emerald-800 via-teal-800 to-teal-900 rounded-2xl p-6 text-white shadow-lg space-y-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-2">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-emerald-100 text-xs font-bold mb-2 border border-white/20">
             <i class="fa-solid fa-store"></i>
             <span>Pharmacy Counter Verification Engine</span>
           </div>
           <h2 class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-prescription-bottle-medical text-emerald-400"></i>
+            <i class="fa-solid fa-prescription-bottle-medical text-emerald-300"></i>
             <span>Chemist Prescription Dispensation Portal</span>
           </h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+          <p class="text-xs sm:text-sm text-teal-100 mt-1 font-medium">
             Verify patient identity by phone number, inspect prescription details, and dispense paperless refills.
           </p>
         </div>
 
         <!-- Chemist Counter Live Metrics -->
         <div class="grid grid-cols-3 gap-3">
-          <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2 text-center">
-            <span id="chem-stat-eligible" class="block text-lg font-extrabold text-emerald-400 font-mono">0</span>
-            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Eligible Rx</span>
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2 text-center">
+            <span id="chem-stat-eligible" class="block text-xl font-extrabold text-emerald-200 font-mono">0</span>
+            <span class="text-[10px] font-bold text-teal-100 uppercase tracking-wider">Eligible Rx</span>
           </div>
-          <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2 text-center">
-            <span id="chem-stat-dispensed" class="block text-lg font-extrabold text-teal-400 font-mono">0</span>
-            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Fulfilled Today</span>
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2 text-center">
+            <span id="chem-stat-dispensed" class="block text-xl font-extrabold text-white font-mono">0</span>
+            <span class="text-[10px] font-bold text-teal-100 uppercase tracking-wider">Fulfilled</span>
           </div>
-          <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2 text-center">
-            <span id="chem-stat-total" class="block text-lg font-extrabold text-purple-400 font-mono">0</span>
-            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Total Patients</span>
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2 text-center">
+            <span id="chem-stat-total" class="block text-xl font-extrabold text-teal-100 font-mono">0</span>
+            <span class="text-[10px] font-bold text-teal-100 uppercase tracking-wider">Patients</span>
           </div>
         </div>
       </div>
@@ -592,10 +591,10 @@
       <div class="relative max-w-2xl mx-auto pt-2">
         <div class="flex flex-col sm:flex-row items-stretch gap-2">
           <div class="relative flex-1">
-            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-emerald-400 text-base"></i>
-            <input type="text" id="chemist-search-input" onkeyup="handleChemistSearch()" placeholder="Enter Patient Phone (e.g. 9876543210), Patient Name, or Rx ID..." class="w-full bg-slate-900/90 border-2 border-emerald-500/50 focus:border-emerald-400 rounded-xl sm:rounded-2xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none shadow-2xl transition">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-emerald-600 text-base"></i>
+            <input type="text" id="chemist-search-input" onkeyup="handleChemistSearch()" placeholder="Enter Patient Phone (e.g. 9876543210), Patient Name, or Rx ID..." class="w-full bg-white border-2 border-emerald-500/80 focus:border-emerald-600 rounded-xl sm:rounded-2xl pl-11 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none shadow-md transition font-medium">
           </div>
-          <button onclick="executeChemistSearch()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 whitespace-nowrap">
+          <button onclick="executeChemistSearch()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-md shadow-emerald-600/30 flex items-center justify-center space-x-2 whitespace-nowrap">
             <i class="fa-solid fa-shield-halved"></i>
             <span>Verify & Fetch</span>
           </button>
@@ -607,19 +606,19 @@
     <div id="chemist-result-container" class="space-y-6">
       
       <!-- INITIAL EMPTY STATE -->
-      <div id="chemist-empty-state" class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 sm:p-12 text-center max-w-lg mx-auto space-y-3">
-        <div class="h-16 w-16 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center mx-auto text-emerald-400 text-2xl">
+      <div id="chemist-empty-state" class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 text-center max-w-lg mx-auto space-y-3 shadow-xs">
+        <div class="h-16 w-16 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-center mx-auto text-emerald-600 text-2xl">
           <i class="fa-solid fa-prescription-bottle-medical"></i>
         </div>
-        <h3 class="text-base font-bold text-white">Pharmacy Counter Lookup</h3>
-        <p class="text-xs text-slate-400">
+        <h3 class="text-base font-bold text-slate-800">Pharmacy Counter Lookup</h3>
+        <p class="text-xs text-slate-500 font-medium">
           Enter patient mobile number above or click a demo trigger:
         </p>
         <div class="flex justify-center gap-2 pt-1">
-          <button onclick="quickFillSearch('9876543210')" class="px-3 py-1.5 bg-slate-900 hover:bg-emerald-950 border border-slate-700 rounded-lg text-xs font-mono text-emerald-400 hover:text-emerald-300 transition">
+          <button onclick="quickFillSearch('9876543210')" class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-xs font-mono font-bold text-emerald-800 transition">
             9876543210 (Eleanor)
           </button>
-          <button onclick="quickFillSearch('9123456789')" class="px-3 py-1.5 bg-slate-900 hover:bg-emerald-950 border border-slate-700 rounded-lg text-xs font-mono text-emerald-400 hover:text-emerald-300 transition">
+          <button onclick="quickFillSearch('9123456789')" class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-xs font-mono font-bold text-emerald-800 transition">
             9123456789 (Robert)
           </button>
         </div>
@@ -629,32 +628,32 @@
       <div id="chemist-patient-details" class="hidden space-y-6">
         
         <!-- Patient Overview Header -->
-        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div class="flex items-center space-x-4">
-            <div class="h-12 w-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center font-bold text-xl shadow-md">
+            <div class="h-12 w-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center font-bold text-xl shadow-xs">
               <i class="fa-solid fa-user-check"></i>
             </div>
             <div>
               <div class="flex items-center space-x-2">
-                <h3 id="chem-patient-name" class="text-lg font-bold text-white">--</h3>
-                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <h3 id="chem-patient-name" class="text-lg font-bold text-slate-900">--</h3>
+                <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
                   <i class="fa-solid fa-circle-check text-[10px]"></i>Verified Patient Profile
                 </span>
               </div>
-              <p class="text-xs text-slate-400 font-mono mt-0.5">
-                Phone: <span id="chem-patient-phone" class="text-white font-semibold">--</span> | 
-                DOB: <span id="chem-patient-dob" class="text-white">--</span> | 
-                Gender: <span id="chem-patient-gender" class="text-white">--</span>
+              <p class="text-xs text-slate-600 font-mono mt-0.5">
+                Phone: <span id="chem-patient-phone" class="text-slate-900 font-bold">--</span> | 
+                DOB: <span id="chem-patient-dob" class="text-slate-800 font-medium">--</span> | 
+                Gender: <span id="chem-patient-gender" class="text-slate-800 font-medium">--</span>
               </p>
             </div>
           </div>
 
           <div class="flex items-center space-x-3">
-            <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-700 text-center">
-              <span class="block text-[10px] text-slate-400 uppercase tracking-wider">Eligible Refills</span>
-              <span id="chem-active-count" class="text-base font-extrabold text-emerald-400 font-mono">0</span>
+            <div class="bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 text-center">
+              <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-bold">Eligible Refills</span>
+              <span id="chem-active-count" class="text-base font-extrabold text-emerald-700 font-mono">0</span>
             </div>
-            <button onclick="resetChemistSearch()" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-xl border border-slate-700 text-xs font-semibold transition">
+            <button onclick="resetChemistSearch()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 rounded-xl border border-slate-300 text-xs font-bold transition">
               <i class="fa-solid fa-rotate-left mr-1"></i>Reset Lookup
             </button>
           </div>
@@ -663,15 +662,15 @@
         <!-- PRESCRIPTION DISPENSATION CARDS -->
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-bold text-white flex items-center space-x-2">
-              <i class="fa-solid fa-file-medical text-emerald-400"></i>
+            <h3 class="text-base font-bold text-slate-800 flex items-center space-x-2">
+              <i class="fa-solid fa-file-medical text-emerald-600"></i>
               <span>Prescription Records & Dispensation Checklist</span>
             </h3>
             <!-- Filter Pills -->
-            <div class="flex space-x-1.5 text-xs font-semibold">
-              <button onclick="filterChemistRx('ALL')" id="chem-filter-all" class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">All</button>
-              <button onclick="filterChemistRx('ACTIVE')" id="chem-filter-active" class="px-3 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-700">Eligible</button>
-              <button onclick="filterChemistRx('DISPENSED')" id="chem-filter-dispensed" class="px-3 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-700">Dispensed</button>
+            <div class="flex space-x-1.5 text-xs font-bold">
+              <button onclick="filterChemistRx('ALL')" id="chem-filter-all" class="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">All</button>
+              <button onclick="filterChemistRx('ACTIVE')" id="chem-filter-active" class="px-3 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200">Eligible</button>
+              <button onclick="filterChemistRx('DISPENSED')" id="chem-filter-dispensed" class="px-3 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200">Dispensed</button>
             </div>
           </div>
 
@@ -681,16 +680,16 @@
         </div>
 
         <!-- RECENT DISPENSATION AUDIT LOG FOR CHEMIST -->
-        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 shadow-xl space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-700 pb-2">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-2">
-              <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center space-x-2">
+              <i class="fa-solid fa-clock-rotate-left text-teal-600"></i>
               <span>Recent Counter Audit Trail</span>
             </h4>
-            <span class="text-[10px] font-mono text-slate-400">Live Dispense Logs</span>
+            <span class="text-[10px] font-mono text-slate-500 font-bold">Live Dispense Logs</span>
           </div>
 
-          <div id="chemist-audit-logs" class="space-y-2 max-h-40 overflow-y-auto text-xs text-slate-300 font-mono">
+          <div id="chemist-audit-logs" class="space-y-2 max-h-40 overflow-y-auto text-xs text-slate-700 font-mono">
             <!-- Rendered by JS -->
           </div>
         </div>
@@ -704,14 +703,14 @@
   <!-- ========================================================================= -->
   <!-- MODAL 1: PRINTABLE PRESCRIPTION SLIP -->
   <!-- ========================================================================= -->
-  <div id="modal-print-slip" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white text-slate-900 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden my-6">
+  <div id="modal-print-slip" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white text-slate-900 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden my-6 border border-slate-200">
       
       <!-- Toolbar -->
       <div class="no-print bg-slate-900 text-white px-6 py-3 flex items-center justify-between border-b border-slate-800">
-        <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Medmitra Official Prescription Slip</span>
+        <span class="text-xs font-bold tracking-wider text-slate-300 uppercase">Medmitra Official Prescription Slip</span>
         <div class="flex items-center space-x-2">
-          <button onclick="triggerPrint()" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
+          <button onclick="triggerPrint()" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1.5 transition">
             <i class="fa-solid fa-print"></i>
             <span>Print / Save PDF</span>
           </button>
@@ -735,7 +734,7 @@
             <div class="inline-block bg-slate-900 text-white font-mono text-xs px-2.5 py-0.5 rounded font-bold uppercase tracking-wider mb-1">
               RX RECORD
             </div>
-            <p id="slip-rx-id" class="text-xs font-mono font-bold text-slate-700">#RX-0000</p>
+            <p id="slip-rx-id" class="text-xs font-mono font-bold text-slate-800">#RX-0000</p>
             <p id="slip-date" class="text-[10px] text-slate-500">Date: --/--/----</p>
           </div>
         </div>
@@ -743,15 +742,15 @@
         <!-- Patient Info Grid -->
         <div class="grid grid-cols-2 gap-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
           <div>
-            <span class="text-slate-500 font-semibold block uppercase text-[9px]">Patient Details</span>
+            <span class="text-slate-500 font-bold block uppercase text-[9px]">Patient Details</span>
             <p id="slip-patient-name" class="font-bold text-slate-900 text-sm">--</p>
-            <p class="text-slate-600">Phone: <span id="slip-patient-phone" class="font-mono">--</span></p>
+            <p class="text-slate-600">Phone: <span id="slip-patient-phone" class="font-mono font-bold">--</span></p>
             <p class="text-slate-600">DOB: <span id="slip-patient-dob">--</span> | Gender: <span id="slip-patient-gender">--</span></p>
           </div>
           <div>
-            <span class="text-slate-500 font-semibold block uppercase text-[9px]">Prescribing Doctor</span>
+            <span class="text-slate-500 font-bold block uppercase text-[9px]">Prescribing Doctor</span>
             <p id="slip-doctor-name" class="font-bold text-slate-900 text-sm">Dr. Sarah Connor</p>
-            <p class="text-slate-600">Diagnosis: <span id="slip-diagnosis" class="font-semibold text-slate-800">--</span></p>
+            <p class="text-slate-600">Diagnosis: <span id="slip-diagnosis" class="font-bold text-slate-800">--</span></p>
           </div>
         </div>
 
@@ -801,35 +800,35 @@
   <!-- ========================================================================= -->
   <!-- MODAL 2: ADD PATIENT MODAL -->
   <!-- ========================================================================= -->
-  <div id="modal-add-patient" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-800 border border-slate-700 text-white rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
-        <h3 class="text-base font-bold text-white flex items-center space-x-2">
-          <i class="fa-solid fa-user-plus text-teal-400"></i>
+  <div id="modal-add-patient" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 text-slate-800 rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+          <i class="fa-solid fa-user-plus text-teal-600"></i>
           <span>Register New Patient</span>
         </h3>
-        <button onclick="closeAddPatientModal()" class="text-slate-400 hover:text-white">
-          <i class="fa-solid fa-xmark"></i>
+        <button onclick="closeAddPatientModal()" class="text-slate-400 hover:text-slate-700">
+          <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
 
       <form onsubmit="handleCreatePatient(event)" class="space-y-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
-          <input type="text" id="new-p-name" required placeholder="e.g. John Doe" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-teal-500">
+          <label class="block text-xs font-bold text-slate-600 mb-1">Full Name</label>
+          <input type="text" id="new-p-name" required placeholder="e.g. John Doe" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-teal-600 focus:bg-white">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number (Primary Key)</label>
-          <input type="tel" id="new-p-phone" required placeholder="10-digit mobile number" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white font-mono focus:outline-none focus:border-teal-500">
+          <label class="block text-xs font-bold text-slate-600 mb-1">Phone Number (Primary Key)</label>
+          <input type="tel" id="new-p-phone" required placeholder="10-digit mobile number" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-800 font-mono focus:outline-none focus:border-teal-600 focus:bg-white">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Date of Birth</label>
-            <input type="date" id="new-p-dob" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500">
+            <label class="block text-xs font-bold text-slate-600 mb-1">Date of Birth</label>
+            <input type="date" id="new-p-dob" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-teal-600 focus:bg-white">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Gender</label>
-            <select id="new-p-gender" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500">
+            <label class="block text-xs font-bold text-slate-600 mb-1">Gender</label>
+            <select id="new-p-gender" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-teal-600 focus:bg-white font-medium">
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
@@ -838,8 +837,8 @@
         </div>
 
         <div class="pt-3 flex justify-end space-x-2">
-          <button type="button" onclick="closeAddPatientModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-xs font-semibold text-slate-300 hover:bg-slate-700">Cancel</button>
-          <button type="submit" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow-lg shadow-teal-600/30">Save & Select</button>
+          <button type="button" onclick="closeAddPatientModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/20">Save & Select</button>
         </div>
       </form>
     </div>
@@ -861,40 +860,40 @@
   <!-- ========================================================================= -->
   <!-- MODAL 4: SUPABASE CONFIGURATION DIALOG -->
   <!-- ========================================================================= -->
-  <div id="modal-supabase" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-800 border border-slate-700 text-white rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
-        <h3 class="text-base font-bold text-white flex items-center space-x-2">
-          <i class="fa-solid fa-database text-teal-400"></i>
+  <div id="modal-supabase" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 text-slate-800 rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+          <i class="fa-solid fa-database text-teal-600"></i>
           <span>Supabase Connection Settings</span>
         </h3>
-        <button onclick="closeSupabaseModal()" class="text-slate-400 hover:text-white">
-          <i class="fa-solid fa-xmark"></i>
+        <button onclick="closeSupabaseModal()" class="text-slate-400 hover:text-slate-700">
+          <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
 
-      <p class="text-xs text-slate-400 leading-relaxed">
+      <p class="text-xs text-slate-600 leading-relaxed font-medium">
         Enter your Supabase credentials here to sync prescriptions and profiles directly with PostgreSQL. Leave blank to use local demo storage.
       </p>
 
       <div class="space-y-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Supabase Project URL</label>
-          <input type="url" id="cfg-sb-url" placeholder="https://xyzcompany.supabase.co" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-teal-500">
+          <label class="block text-xs font-bold text-slate-600 mb-1">Supabase Project URL</label>
+          <input type="url" id="cfg-sb-url" placeholder="https://xyzcompany.supabase.co" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-teal-600 focus:bg-white">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Supabase Anon Key</label>
-          <textarea id="cfg-sb-key" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-teal-500"></textarea>
+          <label class="block text-xs font-bold text-slate-600 mb-1">Supabase Anon Key</label>
+          <textarea id="cfg-sb-key" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-teal-600 focus:bg-white"></textarea>
         </div>
       </div>
 
-      <div class="pt-3 flex items-center justify-between border-t border-slate-700">
-        <button type="button" onclick="disconnectSupabase()" class="px-3.5 py-2 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 text-xs font-medium transition">
+      <div class="pt-3 flex items-center justify-between border-t border-slate-200">
+        <button type="button" onclick="disconnectSupabase()" class="px-3.5 py-2 rounded-xl border border-red-300 text-red-600 hover:bg-red-50 text-xs font-bold transition">
           Disconnect DB
         </button>
         <div class="flex space-x-2">
-          <button type="button" onclick="closeSupabaseModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-xs font-semibold text-slate-300 hover:bg-slate-700">Cancel</button>
-          <button type="button" onclick="saveSupabaseConfig()" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow-lg shadow-teal-600/30">Save & Connect</button>
+          <button type="button" onclick="closeSupabaseModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100">Cancel</button>
+          <button type="button" onclick="saveSupabaseConfig()" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/20">Save & Connect</button>
         </div>
       </div>
     </div>
@@ -958,11 +957,11 @@
       const label = document.getElementById('db-status-text');
       if (dot && label) {
         if (connected) {
-          dot.className = 'h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-md shadow-emerald-400/50';
-          label.className = 'text-emerald-300 font-mono text-[11px] font-semibold';
+          dot.className = 'h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-xs shadow-emerald-500/50';
+          label.className = 'text-emerald-700 font-mono text-[11px] font-bold';
         } else {
-          dot.className = 'h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse';
-          label.className = 'text-slate-300 font-mono text-[11px]';
+          dot.className = 'h-2.5 w-2.5 rounded-full bg-amber-500 animate-pulse';
+          label.className = 'text-slate-600 font-mono text-[11px] font-medium';
         }
         label.innerText = text;
       }
@@ -1021,10 +1020,10 @@
     const ICON = {
       eye: '<i class="fa-solid fa-eye text-xs"></i>',
       eyeOff: '<i class="fa-solid fa-eye-slash text-xs"></i>',
-      check: '<i class="fa-solid fa-circle-check text-4xl text-teal-500"></i>',
-      shield: '<i class="fa-solid fa-shield-halved text-2xl text-teal-500"></i>',
-      lock: '<i class="fa-solid fa-lock text-2xl text-teal-500"></i>',
-      msg: '<i class="fa-solid fa-comment-dots text-2xl text-teal-500"></i>',
+      check: '<i class="fa-solid fa-circle-check text-4xl text-teal-600"></i>',
+      shield: '<i class="fa-solid fa-shield-halved text-2xl text-teal-600"></i>',
+      lock: '<i class="fa-solid fa-lock text-2xl text-teal-600"></i>',
+      msg: '<i class="fa-solid fa-comment-dots text-2xl text-teal-600"></i>',
     };
 
     const FIELDS = {
@@ -1249,16 +1248,16 @@
       if (!currentUser) {
         showView('landing');
         headerControls.innerHTML = `
-          <button onclick="selectRole('doctor'); switchAuthMode('signin');" class="text-xs text-teal-400 hover:text-teal-300 font-semibold px-3 py-1.5 rounded-lg border border-teal-500/30 bg-teal-500/10 transition">
+          <button onclick="selectRole('doctor'); switchAuthMode('signin');" class="text-xs text-teal-700 hover:text-teal-800 font-bold px-3 py-1.5 rounded-lg border border-teal-300 bg-teal-50 transition">
             Doctor Login
           </button>
-          <button onclick="selectRole('pharmacist'); switchAuthMode('signin');" class="text-xs text-emerald-400 hover:text-emerald-300 font-semibold px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 transition">
+          <button onclick="selectRole('pharmacist'); switchAuthMode('signin');" class="text-xs text-emerald-700 hover:text-emerald-800 font-bold px-3 py-1.5 rounded-lg border border-emerald-300 bg-emerald-50 transition">
             Pharmacist Login
           </button>
         `;
       } else {
         const isDoc = currentUser.role === 'doctor';
-        const badgeColor = isDoc ? 'bg-teal-500/20 text-teal-400 border-teal-500/30' : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+        const badgeColor = isDoc ? 'bg-teal-100 text-teal-800 border-teal-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300';
         
         headerControls.innerHTML = `
           <div class="flex items-center space-x-3">
@@ -1267,12 +1266,12 @@
                 ${currentUser.name.substr(0, 2).toUpperCase()}
               </div>
               <div class="text-xs">
-                <span class="block font-bold text-white leading-none">${currentUser.name}</span>
-                <span class="block text-[10px] text-slate-400 leading-tight">${currentUser.orgName || 'Medmitra Partner'}</span>
+                <span class="block font-bold text-slate-900 leading-none">${currentUser.name}</span>
+                <span class="block text-[10px] text-slate-500 font-semibold leading-tight">${currentUser.orgName || 'Medmitra Partner'}</span>
               </div>
             </div>
 
-            <button onclick="handleLogout()" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
+            <button onclick="handleLogout()" class="px-3 py-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl border border-slate-300 transition flex items-center space-x-1.5">
               <i class="fa-solid fa-right-from-bracket"></i>
               <span class="hidden sm:inline">Logout</span>
             </button>
@@ -1352,10 +1351,10 @@
             <form onsubmit="handleAuthSubmit(event)">
               ${fieldsHTML}
               <div class="flex items-center justify-between my-3 text-xs">
-                <label class="flex items-center space-x-1.5 text-slate-500 cursor-pointer">
-                  <input type="checkbox" class="accent-teal-500 rounded"> <span>Remember me</span>
+                <label class="flex items-center space-x-1.5 text-slate-600 cursor-pointer font-medium">
+                  <input type="checkbox" class="accent-teal-600 rounded"> <span>Remember me</span>
                 </label>
-                <button type="button" onclick="openOtpModal()" class="text-slate-400 hover:text-teal-600 transition">Forgot Password?</button>
+                <button type="button" onclick="openOtpModal()" class="text-slate-500 hover:text-teal-700 font-semibold transition">Forgot Password?</button>
               </div>
               <div class="flex gap-2 mb-3">
                 <button type="submit" id="submit-btn" class="btn-login">Login</button>
@@ -1371,7 +1370,7 @@
                 <button type="submit" id="submit-btn" class="btn-login">Create Account</button>
               </div>
               <div class="text-center mt-2">
-                <button type="button" onclick="switchAuthMode('signin')" class="text-xs font-semibold text-teal-600 hover:underline">Already have an account? Sign In</button>
+                <button type="button" onclick="switchAuthMode('signin')" class="text-xs font-bold text-teal-700 hover:underline">Already have an account? Sign In</button>
               </div>
             </form>
           `}
@@ -1505,46 +1504,46 @@
       if (otpStep === 1) {
         body.innerHTML = `
           <div class="text-center mb-4">
-            <div class="h-12 w-12 rounded-2xl bg-teal-50 text-teal-500 flex items-center justify-center mx-auto mb-2">${ICON.msg}</div>
+            <div class="h-12 w-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mx-auto mb-2">${ICON.msg}</div>
             <h3 class="font-jakarta font-bold text-slate-800 text-lg">Reset Password</h3>
-            <p class="text-xs text-slate-400 mt-1">Enter your mobile number to receive a 6-digit OTP code.</p>
+            <p class="text-xs text-slate-500 mt-1">Enter your mobile number to receive a 6-digit OTP code.</p>
           </div>
           <form onsubmit="handleOtpStep1(event)" class="space-y-3">
-            <input type="tel" id="otp-phone" required placeholder="10-digit phone number" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-teal-500">
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2.5 rounded-xl text-xs transition">Send OTP</button>
+            <input type="tel" id="otp-phone" required placeholder="10-digit phone number" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-teal-600">
+            <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Send OTP</button>
           </form>`;
       } else if (otpStep === 2) {
         body.innerHTML = `
           <div class="text-center mb-4">
-            <div class="h-12 w-12 rounded-2xl bg-teal-50 text-teal-500 flex items-center justify-center mx-auto mb-2">${ICON.shield}</div>
+            <div class="h-12 w-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mx-auto mb-2">${ICON.shield}</div>
             <h3 class="font-jakarta font-bold text-slate-800 text-lg">Enter 6-Digit Code</h3>
-            <p class="text-xs text-slate-400 mt-1">We sent a verification code to <strong>+91 ${otpPhone}</strong></p>
+            <p class="text-xs text-slate-500 mt-1">We sent a verification code to <strong>+91 ${otpPhone}</strong></p>
           </div>
           <form onsubmit="handleOtpStep2(event)">
             <div class="otp-boxes mb-3">
               ${[0,1,2,3,4,5].map(i => `<input type="text" maxlength="1" data-otp="${i}" oninput="handleOtpBox(this, ${i})">`).join('')}
             </div>
             <p class="text-[11px] text-slate-400 text-center mb-3">Demo mode: enter any 6 numbers</p>
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2.5 rounded-xl text-xs transition">Verify Code</button>
+            <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Verify Code</button>
           </form>`;
       } else if (otpStep === 3) {
         body.innerHTML = `
           <div class="text-center mb-4">
-            <div class="h-12 w-12 rounded-2xl bg-teal-50 text-teal-500 flex items-center justify-center mx-auto mb-2">${ICON.lock}</div>
+            <div class="h-12 w-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mx-auto mb-2">${ICON.lock}</div>
             <h3 class="font-jakarta font-bold text-slate-800 text-lg">New Password</h3>
-            <p class="text-xs text-slate-400 mt-1">Set a strong new password for your account.</p>
+            <p class="text-xs text-slate-500 mt-1">Set a strong new password for your account.</p>
           </div>
           <form onsubmit="handleOtpStep3(event)" class="space-y-3">
-            <input type="password" id="new-pw" required placeholder="New Password (min 8 chars)" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-teal-500">
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2.5 rounded-xl text-xs transition">Update Password</button>
+            <input type="password" id="new-pw" required placeholder="New Password (min 8 chars)" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-teal-600">
+            <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Update Password</button>
           </form>`;
       } else if (otpStep === 4) {
         body.innerHTML = `
           <div class="text-center space-y-3 py-2">
             <div class="flex justify-center">${ICON.check}</div>
             <h3 class="font-jakarta font-bold text-slate-800 text-lg">Password Reset Complete</h3>
-            <p class="text-xs text-slate-400">You may now login using your new password.</p>
-            <button onclick="closeOtpModal()" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2.5 rounded-xl text-xs transition">Back to Sign In</button>
+            <p class="text-xs text-slate-500">You may now login using your new password.</p>
+            <button onclick="closeOtpModal()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Back to Sign In</button>
           </div>`;
       }
     }
@@ -1579,19 +1578,19 @@
 
       if (matches.length === 0) {
         resultsDiv.innerHTML = `
-          <div class="p-3 text-center text-xs text-slate-400">
+          <div class="p-3 text-center text-xs text-slate-500">
             No patient found matching "${query}". 
-            <button onclick="openAddPatientModal()" class="text-teal-400 underline font-semibold ml-1">Add New Patient</button>
+            <button onclick="openAddPatientModal()" class="text-teal-700 underline font-bold ml-1">Add New Patient</button>
           </div>
         `;
       } else {
         resultsDiv.innerHTML = matches.map(p => `
-          <div onclick="selectPatientForDoctor('${p.id}')" class="p-3 hover:bg-slate-800 cursor-pointer flex items-center justify-between transition">
+          <div onclick="selectPatientForDoctor('${p.id}')" class="p-3 hover:bg-teal-50/70 cursor-pointer flex items-center justify-between transition">
             <div>
-              <span class="font-bold text-white text-xs block">${p.name}</span>
-              <span class="text-[11px] font-mono text-slate-400">Phone: ${p.phone}</span>
+              <span class="font-bold text-slate-900 text-xs block">${p.name}</span>
+              <span class="text-[11px] font-mono text-slate-500">Phone: ${p.phone}</span>
             </div>
-            <span class="text-[10px] bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded">${p.gender}, ${calculateAge(p.dob)}y</span>
+            <span class="text-[10px] bg-slate-100 border border-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">${p.gender}, ${calculateAge(p.dob)}y</span>
           </div>
         `).join('');
       }
@@ -1629,16 +1628,16 @@
 
       const tr = document.createElement('tr');
       tr.id = rowId;
-      tr.className = "hover:bg-slate-800/50 transition";
+      tr.className = "hover:bg-slate-50 transition";
       tr.innerHTML = `
         <td class="py-2 px-3">
-          <input type="text" value="${name}" placeholder="e.g. Paracetamol" class="med-name w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-teal-500">
+          <input type="text" value="${name}" placeholder="e.g. Paracetamol" class="med-name w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:outline-none focus:border-teal-600">
         </td>
         <td class="py-2 px-3">
-          <input type="text" value="${dosage}" placeholder="500mg" class="med-dosage w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-teal-500">
+          <input type="text" value="${dosage}" placeholder="500mg" class="med-dosage w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:outline-none focus:border-teal-600">
         </td>
         <td class="py-2 px-3">
-          <select class="med-freq w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-teal-500">
+          <select class="med-freq w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-800 font-medium focus:outline-none focus:border-teal-600">
             <option value="1-0-0 (Morning)" ${frequency.includes('1-0-0') ? 'selected' : ''}>1-0-0 (Morning)</option>
             <option value="1-0-1 (Morning & Night)" ${frequency.includes('1-0-1') ? 'selected' : ''}>1-0-1 (Morning & Night)</option>
             <option value="0-0-1 (Night)" ${frequency.includes('0-0-1') ? 'selected' : ''}>0-0-1 (Night)</option>
@@ -1647,10 +1646,10 @@
           </select>
         </td>
         <td class="py-2 px-3">
-          <input type="number" value="${duration}" min="1" max="180" class="med-days w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-teal-500">
+          <input type="number" value="${duration}" min="1" max="180" class="med-days w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-800 font-mono font-bold focus:outline-none focus:border-teal-600">
         </td>
         <td class="py-2 px-2 text-center">
-          <button type="button" onclick="removeMedicineRow('${rowId}')" class="text-slate-500 hover:text-red-400 transition">
+          <button type="button" onclick="removeMedicineRow('${rowId}')" class="text-slate-400 hover:text-red-600 transition">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </td>
@@ -1757,33 +1756,33 @@
       document.getElementById('doc-rx-count-badge').innerText = `${filtered.length} Records`;
 
       if (filtered.length === 0) {
-        feed.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">No ${docFilter.toLowerCase()} prescriptions.</div>`;
+        feed.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs font-medium">No ${docFilter.toLowerCase()} prescriptions.</div>`;
         return;
       }
 
       feed.innerHTML = filtered.map(rx => `
-        <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 space-y-3 hover:border-teal-500/40 transition">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3 hover:border-teal-300 transition shadow-2xs">
           <div class="flex items-start justify-between">
             <div>
-              <span class="font-mono text-xs font-bold text-teal-400">#${rx.id.substr(0,8)}</span>
-              <h4 class="font-bold text-white text-sm">${rx.patientName}</h4>
-              <p class="text-xs text-slate-400 font-mono">Phone: ${rx.patientPhone}</p>
+              <span class="font-mono text-xs font-bold text-teal-700">#${rx.id.substr(0,8)}</span>
+              <h4 class="font-bold text-slate-900 text-sm">${rx.patientName}</h4>
+              <p class="text-xs text-slate-500 font-mono">Phone: ${rx.patientPhone}</p>
             </div>
             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono border ${
               rx.status === 'ACTIVE' 
-                ? 'bg-teal-500/10 text-teal-400 border-teal-500/30' 
-                : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                ? 'bg-teal-50 text-teal-700 border-teal-200' 
+                : 'bg-emerald-50 text-emerald-700 border-emerald-200'
             }">
               ${rx.status}
             </span>
           </div>
-          <div class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-lg space-y-1">
-            <p class="text-slate-400"><strong>Dx:</strong> ${rx.diagnosis}</p>
-            <p class="text-slate-400"><strong>Meds (${rx.items.length}):</strong> ${rx.items.map(i => i.name).join(', ')}</p>
+          <div class="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-slate-100 space-y-1">
+            <p class="text-slate-600"><strong>Dx:</strong> ${rx.diagnosis}</p>
+            <p class="text-slate-600"><strong>Meds (${rx.items.length}):</strong> ${rx.items.map(i => i.name).join(', ')}</p>
           </div>
           <div class="flex items-center justify-between pt-1 text-xs">
             <span class="text-[11px] text-slate-500 font-mono">Due: ${rx.refillDueDate}</span>
-            <button onclick="openPrintModal('${rx.id}')" class="text-teal-400 hover:text-teal-300 font-semibold flex items-center space-x-1">
+            <button onclick="openPrintModal('${rx.id}')" class="text-teal-700 hover:text-teal-800 font-bold flex items-center space-x-1">
               <i class="fa-solid fa-print"></i>
               <span>Print Slip</span>
             </button>
@@ -1797,9 +1796,9 @@
       ['all', 'active', 'dispensed'].forEach(f => {
         const btn = document.getElementById(`doc-filter-${f}`);
         if (f.toUpperCase() === filter) {
-          btn.className = "px-3 py-1 rounded-lg text-xs font-medium bg-teal-500/20 text-teal-300 border border-teal-500/30";
+          btn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-teal-50 text-teal-700 border border-teal-200";
         } else {
-          btn.className = "px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-slate-200";
+          btn.className = "px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200";
         }
       });
       renderDoctorRxFeed();
@@ -1850,12 +1849,12 @@
         emptyState.classList.remove('hidden');
         patientDetails.classList.add('hidden');
         emptyState.innerHTML = `
-          <div class="h-14 w-14 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto text-xl border border-red-500/20">
+          <div class="h-14 w-14 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto text-xl border border-red-200">
             <i class="fa-solid fa-user-slash"></i>
           </div>
-          <h3 class="text-base font-bold text-white">No Record Matched</h3>
-          <p class="text-xs text-slate-400">No registered patient or prescription matched "${query}". Please check the phone number or Rx ID.</p>
-          <button onclick="resetChemistSearch()" class="text-xs text-teal-400 underline font-semibold mt-2 inline-block">Reset Search</button>
+          <h3 class="text-base font-bold text-slate-800">No Record Matched</h3>
+          <p class="text-xs text-slate-500 font-medium">No registered patient or prescription matched "${query}". Please check the phone number or Rx ID.</p>
+          <button onclick="resetChemistSearch()" class="text-xs text-teal-700 underline font-bold mt-2 inline-block">Reset Search</button>
         `;
         return;
       }
@@ -1881,9 +1880,9 @@
       ['all', 'active', 'dispensed'].forEach(f => {
         const btn = document.getElementById(`chem-filter-${f.toLowerCase()}`);
         if (f === filter) {
-          btn.className = "px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold";
+          btn.className = "px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold";
         } else {
-          btn.className = "px-3 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-700 font-semibold";
+          btn.className = "px-3 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 font-semibold";
         }
       });
       executeChemistSearch();
@@ -1898,26 +1897,26 @@
       }
 
       if (filteredRxs.length === 0) {
-        container.innerHTML = `<div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 text-center text-slate-400 text-xs">No ${chemistFilter.toLowerCase()} prescriptions found for this patient.</div>`;
+        container.innerHTML = `<div class="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-500 text-xs font-medium">No ${chemistFilter.toLowerCase()} prescriptions found for this patient.</div>`;
         return;
       }
 
       container.innerHTML = filteredRxs.map(rx => `
-        <div class="bg-slate-800/90 rounded-2xl border ${rx.status === 'ACTIVE' ? 'border-emerald-500/40 shadow-emerald-950/20' : 'border-slate-700/80'} p-5 shadow-xl space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700/80 pb-3">
+        <div class="bg-white rounded-2xl border ${rx.status === 'ACTIVE' ? 'border-emerald-300 shadow-xs' : 'border-slate-200'} p-5 shadow-xs space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
             <div>
               <div class="flex items-center space-x-2">
-                <span class="font-mono text-xs font-bold text-emerald-400">#${rx.id.substr(0,8)}</span>
-                <span class="text-xs text-slate-400">| ${rx.hospitalName} (${rx.doctorName})</span>
+                <span class="font-mono text-xs font-bold text-emerald-700">#${rx.id.substr(0,8)}</span>
+                <span class="text-xs text-slate-500 font-medium">| ${rx.hospitalName} (${rx.doctorName})</span>
               </div>
-              <p class="text-xs text-slate-300 mt-0.5"><strong>Dx:</strong> ${rx.diagnosis}</p>
+              <p class="text-xs text-slate-700 mt-0.5 font-medium"><strong>Dx:</strong> ${rx.diagnosis}</p>
             </div>
             <div class="flex items-center space-x-3">
-              <span class="text-xs font-mono text-slate-400">Refill Due: <strong class="text-white">${rx.refillDueDate}</strong></span>
+              <span class="text-xs font-mono text-slate-600">Refill Due: <strong class="text-slate-900">${rx.refillDueDate}</strong></span>
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono border ${
                 rx.status === 'ACTIVE' 
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
-                  : 'bg-slate-700 text-slate-400 border-slate-600'
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                  : 'bg-slate-100 text-slate-600 border-slate-200'
               }">
                 ${rx.status === 'ACTIVE' ? 'ELIGIBLE FOR DISPENSE' : 'DISPENSED'}
               </span>
@@ -1925,10 +1924,10 @@
           </div>
 
           <div class="space-y-2">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Prescribed Medicines</h4>
-            <div class="bg-slate-900 rounded-xl border border-slate-700 overflow-x-auto">
-              <table class="w-full text-left text-xs text-slate-300 min-w-[450px]">
-                <thead class="bg-slate-800/60 font-semibold uppercase text-[10px] text-slate-400 border-b border-slate-700">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600">Prescribed Medicines</h4>
+            <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-700 min-w-[450px]">
+                <thead class="bg-slate-100 font-bold uppercase text-[10px] text-slate-600 border-b border-slate-200">
                   <tr>
                     <th class="py-2 px-3 w-8">Check</th>
                     <th class="py-2 px-3">Medicine</th>
@@ -1937,16 +1936,16 @@
                     <th class="py-2 px-3">Duration</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-800 font-mono">
+                <tbody class="divide-y divide-slate-200 font-mono bg-white">
                   ${rx.items.map((item, i) => `
                     <tr>
                       <td class="py-2 px-3">
-                        <input type="checkbox" checked ${rx.status !== 'ACTIVE' ? 'disabled' : ''} class="accent-emerald-500 rounded cursor-pointer">
+                        <input type="checkbox" checked ${rx.status !== 'ACTIVE' ? 'disabled' : ''} class="accent-emerald-600 rounded cursor-pointer">
                       </td>
-                      <td class="py-2 px-3 font-bold text-white font-sans">${item.name}</td>
-                      <td class="py-2 px-3 text-emerald-400">${item.dosage}</td>
-                      <td class="py-2 px-3 text-slate-300 font-sans">${item.frequency}</td>
-                      <td class="py-2 px-3 text-slate-400">${item.duration} days</td>
+                      <td class="py-2 px-3 font-bold text-slate-900 font-sans">${item.name}</td>
+                      <td class="py-2 px-3 text-emerald-700 font-bold">${item.dosage}</td>
+                      <td class="py-2 px-3 text-slate-700 font-sans font-medium">${item.frequency}</td>
+                      <td class="py-2 px-3 text-slate-600">${item.duration} days</td>
                     </tr>
                   `).join('')}
                 </tbody>
@@ -1957,24 +1956,24 @@
           <!-- Chemist Notes input before fulfillment -->
           ${rx.status === 'ACTIVE' ? `
             <div class="pt-1">
-              <input type="text" id="chem-notes-${rx.id}" placeholder="Optional chemist notes (e.g. Verified photo ID / Batch #7821)..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+              <input type="text" id="chem-notes-${rx.id}" placeholder="Optional chemist notes (e.g. Verified photo ID / Batch #7821)..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:bg-white font-medium">
             </div>
           ` : ''}
 
           <div class="pt-1 flex items-center justify-between">
-            <button onclick="openPrintModal('${rx.id}')" class="text-xs text-slate-400 hover:text-white flex items-center space-x-1.5 transition">
+            <button onclick="openPrintModal('${rx.id}')" class="text-xs text-slate-500 hover:text-slate-800 font-bold flex items-center space-x-1.5 transition">
               <i class="fa-solid fa-print"></i>
               <span>View Original Slip</span>
             </button>
 
             ${rx.status === 'ACTIVE' ? `
-              <button onclick="dispensePrescription('${rx.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center space-x-2">
+              <button onclick="dispensePrescription('${rx.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition shadow-md shadow-emerald-600/20 flex items-center space-x-2">
                 <i class="fa-solid fa-circle-check"></i>
                 <span>Fulfill & Dispense</span>
               </button>
             ` : `
-              <div class="text-xs text-slate-400 font-mono flex items-center space-x-1">
-                <i class="fa-solid fa-check-double text-emerald-400"></i>
+              <div class="text-xs text-slate-500 font-mono flex items-center space-x-1 font-bold">
+                <i class="fa-solid fa-check-double text-emerald-600"></i>
                 <span>Fulfilled by ${rx.dispensedBy || 'Pharmacy Counter'}</span>
               </div>
             `}
@@ -2030,17 +2029,17 @@
       if (!container) return;
 
       if (dispenseLogsDB.length === 0) {
-        container.innerHTML = `<div class="text-slate-500 text-[11px]">No recent dispensation records logged.</div>`;
+        container.innerHTML = `<div class="text-slate-500 text-[11px] font-medium">No recent dispensation records logged.</div>`;
         return;
       }
 
       container.innerHTML = dispenseLogsDB.slice(0, 5).map(l => `
-        <div class="flex items-center justify-between bg-slate-900 p-2 rounded-lg border border-slate-800">
+        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-lg border border-slate-200">
           <div>
-            <span class="text-emerald-400 font-bold">#${l.rxId.substr(0,8)}</span> - <span class="text-white">${l.patientName}</span>
-            <p class="text-[10px] text-slate-500">${l.pharmacyName} (${l.chemistName})</p>
+            <span class="text-emerald-700 font-bold">#${l.rxId.substr(0,8)}</span> - <span class="text-slate-900 font-bold">${l.patientName}</span>
+            <p class="text-[10px] text-slate-500 font-medium">${l.pharmacyName} (${l.chemistName})</p>
           </div>
-          <span class="text-[10px] text-slate-400">${l.dispensedAt}</span>
+          <span class="text-[10px] text-slate-500">${l.dispensedAt}</span>
         </div>
       `).join('');
     }
@@ -2129,19 +2128,19 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       
-      let borderClr = 'border-teal-500';
+      let borderClr = 'border-teal-500 bg-slate-900 text-white';
       let icon = 'fa-circle-info text-teal-400';
 
       if (type === 'success') {
-        borderClr = 'border-emerald-500';
+        borderClr = 'border-emerald-500 bg-slate-900 text-white';
         icon = 'fa-circle-check text-emerald-400';
       } else if (type === 'error') {
-        borderClr = 'border-red-500';
+        borderClr = 'border-red-500 bg-slate-900 text-white';
         icon = 'fa-triangle-exclamation text-red-400';
       }
 
-      toast.className = `pointer-events-auto bg-slate-900 text-white text-xs px-4 py-3 rounded-xl border ${borderClr} shadow-2xl flex items-center space-x-2 transition transform duration-300`;
-      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span class="font-medium">${message}</span>`;
+      toast.className = `pointer-events-auto text-xs px-4 py-3 rounded-xl border ${borderClr} shadow-2xl flex items-center space-x-2 transition transform duration-300`;
+      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span class="font-bold">${message}</span>`;
 
       container.appendChild(toast);
 
