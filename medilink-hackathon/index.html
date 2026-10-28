@@ -724,6 +724,11 @@
   <!-- JAVASCRIPT APPLICATION LOGIC -->
   <!-- ========================================================================= -->
   <script>
+    // Inside index.html script tag
+    const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOi...YOUR-ACTUAL-ANON-KEY';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     // -------------------------------------------------------------------------
     // 1. STATE MANAGEMENT & SESSION CONTROL
     // -------------------------------------------------------------------------
