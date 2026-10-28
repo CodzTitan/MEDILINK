@@ -7,7 +7,7 @@
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter, Plus Jakarta Sans, Playfair Display & JetBrains Mono -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
@@ -36,11 +36,13 @@
               700: '#1a7a6a',
               900: '#0f483f',
             },
-            brand: {
-              50: '#f0f9ff',
-              500: '#0284c7',
-              600: '#0284c7',
-              700: '#0369a1',
+            chemist: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              900: '#064e3b',
             }
           }
         }
@@ -55,7 +57,7 @@
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-    /* Medmitra Specific Auth Styles */
+    /* Medmitra Specific Background Patterns & Auth Styles */
     .bg-pattern {
       position: fixed;
       bottom: 0; left: 0; right: 0;
@@ -102,7 +104,6 @@
     .role-btn:hover { border-color: #38b2a0; color: #38b2a0; }
     .role-btn.active { border-color: #38b2a0; background: #eef9f7; color: #38b2a0; }
 
-    /* Form input styling inside right panel */
     #auth-area .form-group input, #auth-area .form-group select {
       width: 100%; border: none; border-bottom: 1.5px solid #ddd;
       padding: 0.75rem 0.25rem; font-size: 0.9rem; color: #333;
@@ -138,7 +139,6 @@
     .status-msg.success { background: #eef9f7; color: #1a7a6a; border: 1px solid #c2e9e0; }
     .status-msg.error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
 
-    /* Modal Styling */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 100;
       display: none; align-items: center; justify-content: center; padding: 1rem;
@@ -180,7 +180,7 @@
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-teal-500 selection:text-white">
 
-  <!-- Molecular pattern background -->
+  <!-- Background SVG pattern -->
   <svg class="bg-pattern" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <g stroke="#38b2a0" stroke-width="0.8" fill="none">
       <circle cx="100" cy="120" r="4" fill="#38b2a0" opacity="0.3"/>
@@ -220,7 +220,7 @@
         </div>
       </div>
 
-      <!-- Database Status Indicator & Supabase Settings Trigger -->
+      <!-- Database Connection Status & Settings -->
       <div class="hidden md:flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs">
         <span id="db-status-dot" class="h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse"></span>
         <span id="db-status-text" class="text-slate-300 font-mono text-[11px]">Demo Local Storage</span>
@@ -237,14 +237,14 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 1: LANDING & AUTHENTICATION VIEW (MEDMITRA AUTH SYSTEM) -->
+  <!-- SECTION 1: LANDING & AUTHENTICATION VIEW -->
   <!-- ========================================================================= -->
   <section id="view-landing" class="flex-1 flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative z-10">
     
     <div class="flex justify-center items-center w-full my-auto">
       <div class="auth-card">
 
-        <!-- Left Panel: Medmitra Branding + Medical Illustration -->
+        <!-- Left Panel: Medmitra Branding -->
         <div class="left-panel">
           <h1 class="brand-title">
             Medmitra
@@ -256,7 +256,6 @@
           
           <div class="mt-6 relative flex justify-center">
             <div class="absolute w-48 h-48 rounded-full bg-teal-500/10 blur-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-            <!-- Medical team SVG illustration -->
             <svg viewBox="0 0 500 320" class="w-full max-w-[280px] h-auto relative z-10" xmlns="http://www.w3.org/2000/svg">
               <g transform="translate(60,40)">
                 <rect x="15" y="120" width="50" height="80" rx="6" fill="#5ba4cf"/>
@@ -326,7 +325,7 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 2: HOSPITAL / DOCTOR PORTAL (PROTECTED VIEW) -->
+  <!-- SECTION 2: HOSPITAL / DOCTOR PORTAL -->
   <!-- ========================================================================= -->
   <main id="view-hospital" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
     
@@ -551,63 +550,95 @@
   </main>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 3: CHEMIST / PHARMACIST PORTAL (PROTECTED VIEW) -->
+  <!-- SECTION 3: CHEMIST / PHARMACIST PORTAL (ENHANCED PHARMACY COUNTER) -->
   <!-- ========================================================================= -->
   <main id="view-chemist" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
     
-    <!-- SEARCH HEADER BANNER -->
-    <div class="bg-gradient-to-r from-teal-950/80 via-slate-800 to-slate-800 rounded-2xl border border-teal-500/30 p-6 shadow-2xl text-center space-y-4">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-semibold">
-        <i class="fa-solid fa-shop"></i>
-        <span>Pharmacy Counter Verification</span>
-      </div>
-      
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
-        Search Patient to Dispense Medicines
-      </h2>
+    <!-- CHEMIST COUNTER STATS BANNER -->
+    <div class="bg-gradient-to-r from-emerald-950/90 via-slate-800 to-slate-800 rounded-2xl border border-emerald-500/30 p-5 sm:p-6 shadow-2xl space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-2">
+            <i class="fa-solid fa-store"></i>
+            <span>Pharmacy Counter Verification Engine</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-prescription-bottle-medical text-emerald-400"></i>
+            <span>Chemist Prescription Dispensation Portal</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Verify patient identity by phone number, inspect prescription details, and dispense paperless refills.
+          </p>
+        </div>
 
-      <!-- Search Input -->
-      <div class="relative max-w-xl mx-auto pt-2">
+        <!-- Chemist Counter Live Metrics -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2 text-center">
+            <span id="chem-stat-eligible" class="block text-lg font-extrabold text-emerald-400 font-mono">0</span>
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Eligible Rx</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2 text-center">
+            <span id="chem-stat-dispensed" class="block text-lg font-extrabold text-teal-400 font-mono">0</span>
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Fulfilled Today</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2 text-center">
+            <span id="chem-stat-total" class="block text-lg font-extrabold text-purple-400 font-mono">0</span>
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Total Patients</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="relative max-w-2xl mx-auto pt-2">
         <div class="flex flex-col sm:flex-row items-stretch gap-2">
           <div class="relative flex-1">
-            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-teal-400 text-lg"></i>
-            <input type="text" id="chemist-search-input" onkeyup="handleChemistSearch()" placeholder="Enter Patient Phone (e.g. 9876543210) or Name..." class="w-full bg-slate-900/90 border-2 border-teal-500/50 focus:border-teal-400 rounded-xl sm:rounded-2xl pl-12 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none shadow-2xl transition">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-emerald-400 text-base"></i>
+            <input type="text" id="chemist-search-input" onkeyup="handleChemistSearch()" placeholder="Enter Patient Phone (e.g. 9876543210), Patient Name, or Rx ID..." class="w-full bg-slate-900/90 border-2 border-emerald-500/50 focus:border-emerald-400 rounded-xl sm:rounded-2xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none shadow-2xl transition">
           </div>
-          <button onclick="executeChemistSearch()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-teal-600/30 flex items-center justify-center space-x-2">
+          <button onclick="executeChemistSearch()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 whitespace-nowrap">
+            <i class="fa-solid fa-shield-halved"></i>
             <span>Verify & Fetch</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- CHEMIST RESULTS WORKFLOW AREA -->
+    <!-- CHEMIST WORKFLOW CONTAINER -->
     <div id="chemist-result-container" class="space-y-6">
       
       <!-- INITIAL EMPTY STATE -->
       <div id="chemist-empty-state" class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 sm:p-12 text-center max-w-lg mx-auto space-y-3">
-        <div class="h-16 w-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto text-slate-400 text-2xl">
+        <div class="h-16 w-16 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center mx-auto text-emerald-400 text-2xl">
           <i class="fa-solid fa-prescription-bottle-medical"></i>
         </div>
-        <h3 class="text-base font-bold text-white">Ready for Patient Lookup</h3>
+        <h3 class="text-base font-bold text-white">Pharmacy Counter Lookup</h3>
         <p class="text-xs text-slate-400">
-          Search by phone above (Try demo numbers: <span class="font-mono text-teal-400 cursor-pointer underline" onclick="quickFillSearch('9876543210')">9876543210</span> or <span class="font-mono text-teal-400 cursor-pointer underline" onclick="quickFillSearch('9123456789')">9123456789</span>)
+          Enter patient mobile number above or click a demo trigger:
         </p>
+        <div class="flex justify-center gap-2 pt-1">
+          <button onclick="quickFillSearch('9876543210')" class="px-3 py-1.5 bg-slate-900 hover:bg-emerald-950 border border-slate-700 rounded-lg text-xs font-mono text-emerald-400 hover:text-emerald-300 transition">
+            9876543210 (Eleanor)
+          </button>
+          <button onclick="quickFillSearch('9123456789')" class="px-3 py-1.5 bg-slate-900 hover:bg-emerald-950 border border-slate-700 rounded-lg text-xs font-mono text-emerald-400 hover:text-emerald-300 transition">
+            9123456789 (Robert)
+          </button>
+        </div>
       </div>
 
-      <!-- FOUND PATIENT OVERVIEW CARD & PRESCRIPTIONS -->
+      <!-- FOUND PATIENT OVERVIEW CARD & PRESCRIPTION LIST -->
       <div id="chemist-patient-details" class="hidden space-y-6">
         
-        <!-- Patient Info Header -->
+        <!-- Patient Overview Header -->
         <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div class="flex items-center space-x-4">
-            <div class="h-12 w-12 rounded-2xl bg-teal-500/20 border border-teal-500/40 text-teal-400 flex items-center justify-center font-bold text-xl">
-              <i class="fa-solid fa-hospital-user"></i>
+            <div class="h-12 w-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center font-bold text-xl shadow-md">
+              <i class="fa-solid fa-user-check"></i>
             </div>
             <div>
               <div class="flex items-center space-x-2">
                 <h3 id="chem-patient-name" class="text-lg font-bold text-white">--</h3>
-                <span class="bg-teal-500/10 text-teal-400 border border-teal-500/30 text-[10px] font-semibold px-2 py-0.5 rounded-full">
-                  <i class="fa-solid fa-circle-check mr-1"></i>Verified Patient
+                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                  <i class="fa-solid fa-circle-check text-[10px]"></i>Verified Patient Profile
                 </span>
               </div>
               <p class="text-xs text-slate-400 font-mono mt-0.5">
@@ -618,21 +649,49 @@
             </div>
           </div>
 
-          <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-700">
-            <span class="block text-[10px] text-slate-400 uppercase tracking-wider">Active Prescriptions</span>
-            <span id="chem-active-count" class="text-base font-extrabold text-teal-400 font-mono">0</span>
+          <div class="flex items-center space-x-3">
+            <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-700 text-center">
+              <span class="block text-[10px] text-slate-400 uppercase tracking-wider">Eligible Refills</span>
+              <span id="chem-active-count" class="text-base font-extrabold text-emerald-400 font-mono">0</span>
+            </div>
+            <button onclick="resetChemistSearch()" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-xl border border-slate-700 text-xs font-semibold transition">
+              <i class="fa-solid fa-rotate-left mr-1"></i>Reset Lookup
+            </button>
           </div>
         </div>
 
-        <!-- PRESCRIPTION CARDS FOR DISPENSING -->
+        <!-- PRESCRIPTION DISPENSATION CARDS -->
         <div class="space-y-4">
-          <h3 class="text-base font-bold text-white flex items-center space-x-2">
-            <i class="fa-solid fa-file-medical text-teal-400"></i>
-            <span>Prescriptions for Dispensation</span>
-          </h3>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-white flex items-center space-x-2">
+              <i class="fa-solid fa-file-medical text-emerald-400"></i>
+              <span>Prescription Records & Dispensation Checklist</span>
+            </h3>
+            <!-- Filter Pills -->
+            <div class="flex space-x-1.5 text-xs font-semibold">
+              <button onclick="filterChemistRx('ALL')" id="chem-filter-all" class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">All</button>
+              <button onclick="filterChemistRx('ACTIVE')" id="chem-filter-active" class="px-3 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-700">Eligible</button>
+              <button onclick="filterChemistRx('DISPENSED')" id="chem-filter-dispensed" class="px-3 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-700">Dispensed</button>
+            </div>
+          </div>
 
           <div id="chemist-rx-cards-list" class="space-y-4">
-            <!-- Rendered dynamically -->
+            <!-- Dynamic Prescriptions Cards Rendered -->
+          </div>
+        </div>
+
+        <!-- RECENT DISPENSATION AUDIT LOG FOR CHEMIST -->
+        <div class="bg-slate-800/90 rounded-2xl border border-slate-700/80 p-5 shadow-xl space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-700 pb-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-2">
+              <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
+              <span>Recent Counter Audit Trail</span>
+            </h4>
+            <span class="text-[10px] font-mono text-slate-400">Live Dispense Logs</span>
+          </div>
+
+          <div id="chemist-audit-logs" class="space-y-2 max-h-40 overflow-y-auto text-xs text-slate-300 font-mono">
+            <!-- Rendered by JS -->
           </div>
         </div>
 
@@ -841,6 +900,9 @@
     </div>
   </div>
 
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none max-w-sm w-full"></div>
+
   <!-- Specialization Datalist -->
   <datalist id="specializations">
     <option value="General Physician"></option>
@@ -860,11 +922,8 @@
     <option value="Urology"></option>
   </datalist>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none max-w-sm w-full"></div>
-
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT APPLICATION LOGIC WITH MEDMITRA AUTH + SUPABASE ENGINE -->
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
   <!-- ========================================================================= -->
   <script>
     // -------------------------------------------------------------------------
@@ -952,11 +1011,12 @@
     // 2. STATE MANAGEMENT & DATA PERSISTENCE
     // -------------------------------------------------------------------------
     let currentUser = JSON.parse(localStorage.getItem('medilink_user')) || null;
-    let authRole = 'doctor'; // 'doctor' or 'pharmacist'
-    let authMode = 'signin'; // 'signin' or 'signup'
+    let authRole = 'doctor';
+    let authMode = 'signin';
     
     let selectedPatient = null;
     let docFilter = 'ALL';
+    let chemistFilter = 'ALL';
 
     const ICON = {
       eye: '<i class="fa-solid fa-eye text-xs"></i>',
@@ -1018,7 +1078,17 @@
       }
     ];
 
-    let dispenseLogsDB = JSON.parse(localStorage.getItem('medilink_dispense_logs')) || [];
+    let dispenseLogsDB = JSON.parse(localStorage.getItem('medilink_dispense_logs')) || [
+      {
+        id: 'log-001',
+        rxId: 'c3333333-3333-3333-3333-333333333333',
+        patientName: 'Eleanor Vance',
+        pharmacyName: 'CarePlus Pharmacy Counter',
+        chemistName: 'Chemist Alex Mercer',
+        dispensedAt: new Date().toLocaleString(),
+        notes: 'Verified photo identity & prescription validity.'
+      }
+    ];
 
     function saveData() {
       localStorage.setItem('medilink_patients', JSON.stringify(patientsDB));
@@ -1034,7 +1104,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // 3. SUPABASE SYNC LOGIC
+    // 3. SUPABASE SYNC ENGINE
     // -------------------------------------------------------------------------
     async function syncFromSupabase() {
       if (!isSupabaseConnected || !supabaseClient) return;
@@ -1073,6 +1143,18 @@
               frequency: item.frequency,
               duration: item.duration_days
             }))
+          }));
+        }
+
+        const { data: logData, error: logErr } = await supabaseClient.from('dispense_logs').select('*');
+        if (!logErr && logData && logData.length > 0) {
+          dispenseLogsDB = logData.map(l => ({
+            id: l.id,
+            rxId: l.prescription_id,
+            pharmacyName: l.pharmacy_name,
+            chemistName: l.chemist_name,
+            dispensedAt: new Date(l.dispensed_at).toLocaleString(),
+            notes: l.notes || 'Full dispensation fulfilled.'
           }));
         }
 
@@ -1127,14 +1209,15 @@
       }
     }
 
-    async function syncDispenseToSupabase(rxId, pharmacyName, chemistName) {
+    async function syncDispenseToSupabase(rxId, pharmacyName, chemistName, notes = '') {
       if (!isSupabaseConnected || !supabaseClient) return;
       try {
         await supabaseClient.from('prescriptions').update({ status: 'DISPENSED' }).eq('id', rxId);
         await supabaseClient.from('dispense_logs').insert([{
           prescription_id: rxId,
           pharmacy_name: pharmacyName,
-          chemist_name: chemistName
+          chemist_name: chemistName,
+          notes: notes
         }]);
       } catch (e) {
         console.error('[Medmitra] Dispense update error:', e);
@@ -1142,7 +1225,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // 4. LIFECYCLE & ROUTING
+    // 4. ROUTING & VIEW CONTROLLER
     // -------------------------------------------------------------------------
     window.onload = function() {
       initSupabase();
@@ -1202,6 +1285,7 @@
           updateGlobalStats();
         } else {
           showView('chemist');
+          renderChemistAuditLogs();
           updateGlobalStats();
         }
       }
@@ -1388,10 +1472,18 @@
       if (elActive) elActive.innerText = activeRxCount;
       if (elDisp) elDisp.innerText = dispensedCount;
       if (elPat) elPat.innerText = patientsDB.length;
+
+      const chemEligible = document.getElementById('chem-stat-eligible');
+      const chemDispensed = document.getElementById('chem-stat-dispensed');
+      const chemTotal = document.getElementById('chem-stat-total');
+
+      if (chemEligible) chemEligible.innerText = activeRxCount;
+      if (chemDispensed) chemDispensed.innerText = dispensedCount;
+      if (chemTotal) chemTotal.innerText = patientsDB.length;
     }
 
     // -------------------------------------------------------------------------
-    // 6. FORGOT PASSWORD OTP MODAL (MEDMITRA SYSTEM)
+    // 6. FORGOT PASSWORD OTP MODAL
     // -------------------------------------------------------------------------
     let otpStep = 1;
     let otpPhone = '';
@@ -1468,14 +1560,8 @@
         if (next) next.focus();
       }
     }
-    function handleOtpStep2(e) {
-      e.preventDefault();
-      otpStep = 3; renderOtpModal();
-    }
-    function handleOtpStep3(e) {
-      e.preventDefault();
-      otpStep = 4; renderOtpModal();
-    }
+    function handleOtpStep2(e) { e.preventDefault(); otpStep = 3; renderOtpModal(); }
+    function handleOtpStep3(e) { e.preventDefault(); otpStep = 4; renderOtpModal(); }
 
     // -------------------------------------------------------------------------
     // 7. HOSPITAL DOCTOR WORKFLOW
@@ -1720,7 +1806,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // 8. CHEMIST PHARMACIST WORKFLOW
+    // 8. CHEMIST PHARMACIST ENHANCED WORKFLOW
     // -------------------------------------------------------------------------
     function quickFillSearch(phone) {
       document.getElementById('chemist-search-input').value = phone;
@@ -1730,6 +1816,12 @@
     function handleChemistSearch() {
       const query = document.getElementById('chemist-search-input').value.trim();
       if (query.length >= 3) executeChemistSearch();
+    }
+
+    function resetChemistSearch() {
+      document.getElementById('chemist-search-input').value = '';
+      document.getElementById('chemist-empty-state').classList.remove('hidden');
+      document.getElementById('chemist-patient-details').classList.add('hidden');
     }
 
     function executeChemistSearch() {
@@ -1743,17 +1835,27 @@
         return;
       }
 
-      const patient = patientsDB.find(p => p.phone.includes(query) || p.name.toLowerCase().includes(query));
+      // Search by Phone, Name, or Rx ID substring
+      let patient = patientsDB.find(p => p.phone.includes(query) || p.name.toLowerCase().includes(query));
+      let matchingRx = null;
 
       if (!patient) {
+        matchingRx = prescriptionsDB.find(r => r.id.toLowerCase().includes(query));
+        if (matchingRx) {
+          patient = patientsDB.find(p => p.id === matchingRx.patientId || p.phone === matchingRx.patientPhone);
+        }
+      }
+
+      if (!patient && !matchingRx) {
         emptyState.classList.remove('hidden');
         patientDetails.classList.add('hidden');
         emptyState.innerHTML = `
           <div class="h-14 w-14 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto text-xl border border-red-500/20">
             <i class="fa-solid fa-user-slash"></i>
           </div>
-          <h3 class="text-base font-bold text-white">No Patient Records Found</h3>
-          <p class="text-xs text-slate-400">No registered patient matched "${query}". Please verify phone number.</p>
+          <h3 class="text-base font-bold text-white">No Record Matched</h3>
+          <p class="text-xs text-slate-400">No registered patient or prescription matched "${query}". Please check the phone number or Rx ID.</p>
+          <button onclick="resetChemistSearch()" class="text-xs text-teal-400 underline font-semibold mt-2 inline-block">Reset Search</button>
         `;
         return;
       }
@@ -1761,32 +1863,51 @@
       emptyState.classList.add('hidden');
       patientDetails.classList.remove('hidden');
 
-      document.getElementById('chem-patient-name').innerText = patient.name;
-      document.getElementById('chem-patient-phone').innerText = patient.phone;
-      document.getElementById('chem-patient-dob').innerText = patient.dob;
-      document.getElementById('chem-patient-gender').innerText = patient.gender;
+      document.getElementById('chem-patient-name').innerText = patient ? patient.name : matchingRx.patientName;
+      document.getElementById('chem-patient-phone').innerText = patient ? patient.phone : matchingRx.patientPhone;
+      document.getElementById('chem-patient-dob').innerText = patient ? patient.dob : 'N/A';
+      document.getElementById('chem-patient-gender').innerText = patient ? patient.gender : 'N/A';
 
-      const patientRxs = prescriptionsDB.filter(r => r.patientId === patient.id || r.patientPhone === patient.phone);
+      const patientRxs = prescriptionsDB.filter(r => (patient && (r.patientId === patient.id || r.patientPhone === patient.phone)) || (matchingRx && r.id === matchingRx.id));
       const activeRxs = patientRxs.filter(r => r.status === 'ACTIVE');
       document.getElementById('chem-active-count').innerText = activeRxs.length;
 
       renderChemistRxCards(patientRxs);
+      renderChemistAuditLogs();
+    }
+
+    function filterChemistRx(filter) {
+      chemistFilter = filter;
+      ['all', 'active', 'dispensed'].forEach(f => {
+        const btn = document.getElementById(`chem-filter-${f.toLowerCase()}`);
+        if (f === filter) {
+          btn.className = "px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold";
+        } else {
+          btn.className = "px-3 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-700 font-semibold";
+        }
+      });
+      executeChemistSearch();
     }
 
     function renderChemistRxCards(rxs) {
       const container = document.getElementById('chemist-rx-cards-list');
 
-      if (rxs.length === 0) {
-        container.innerHTML = `<div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 text-center text-slate-400 text-xs">No prescriptions found.</div>`;
+      let filteredRxs = rxs;
+      if (chemistFilter !== 'ALL') {
+        filteredRxs = rxs.filter(r => r.status === chemistFilter);
+      }
+
+      if (filteredRxs.length === 0) {
+        container.innerHTML = `<div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 text-center text-slate-400 text-xs">No ${chemistFilter.toLowerCase()} prescriptions found for this patient.</div>`;
         return;
       }
 
-      container.innerHTML = rxs.map(rx => `
-        <div class="bg-slate-800/90 rounded-2xl border ${rx.status === 'ACTIVE' ? 'border-teal-500/40' : 'border-slate-700/80'} p-5 shadow-xl space-y-4">
+      container.innerHTML = filteredRxs.map(rx => `
+        <div class="bg-slate-800/90 rounded-2xl border ${rx.status === 'ACTIVE' ? 'border-emerald-500/40 shadow-emerald-950/20' : 'border-slate-700/80'} p-5 shadow-xl space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700/80 pb-3">
             <div>
               <div class="flex items-center space-x-2">
-                <span class="font-mono text-xs font-bold text-teal-400">#${rx.id.substr(0,8)}</span>
+                <span class="font-mono text-xs font-bold text-emerald-400">#${rx.id.substr(0,8)}</span>
                 <span class="text-xs text-slate-400">| ${rx.hospitalName} (${rx.doctorName})</span>
               </div>
               <p class="text-xs text-slate-300 mt-0.5"><strong>Dx:</strong> ${rx.diagnosis}</p>
@@ -1795,7 +1916,7 @@
               <span class="text-xs font-mono text-slate-400">Refill Due: <strong class="text-white">${rx.refillDueDate}</strong></span>
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono border ${
                 rx.status === 'ACTIVE' 
-                  ? 'bg-teal-500/10 text-teal-400 border-teal-500/30' 
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
                   : 'bg-slate-700 text-slate-400 border-slate-600'
               }">
                 ${rx.status === 'ACTIVE' ? 'ELIGIBLE FOR DISPENSE' : 'DISPENSED'}
@@ -1809,6 +1930,7 @@
               <table class="w-full text-left text-xs text-slate-300 min-w-[450px]">
                 <thead class="bg-slate-800/60 font-semibold uppercase text-[10px] text-slate-400 border-b border-slate-700">
                   <tr>
+                    <th class="py-2 px-3 w-8">Check</th>
                     <th class="py-2 px-3">Medicine</th>
                     <th class="py-2 px-3">Dosage</th>
                     <th class="py-2 px-3">Timing</th>
@@ -1816,10 +1938,13 @@
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800 font-mono">
-                  ${rx.items.map(item => `
+                  ${rx.items.map((item, i) => `
                     <tr>
+                      <td class="py-2 px-3">
+                        <input type="checkbox" checked ${rx.status !== 'ACTIVE' ? 'disabled' : ''} class="accent-emerald-500 rounded cursor-pointer">
+                      </td>
                       <td class="py-2 px-3 font-bold text-white font-sans">${item.name}</td>
-                      <td class="py-2 px-3 text-teal-400">${item.dosage}</td>
+                      <td class="py-2 px-3 text-emerald-400">${item.dosage}</td>
                       <td class="py-2 px-3 text-slate-300 font-sans">${item.frequency}</td>
                       <td class="py-2 px-3 text-slate-400">${item.duration} days</td>
                     </tr>
@@ -1829,6 +1954,13 @@
             </div>
           </div>
 
+          <!-- Chemist Notes input before fulfillment -->
+          ${rx.status === 'ACTIVE' ? `
+            <div class="pt-1">
+              <input type="text" id="chem-notes-${rx.id}" placeholder="Optional chemist notes (e.g. Verified photo ID / Batch #7821)..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+            </div>
+          ` : ''}
+
           <div class="pt-1 flex items-center justify-between">
             <button onclick="openPrintModal('${rx.id}')" class="text-xs text-slate-400 hover:text-white flex items-center space-x-1.5 transition">
               <i class="fa-solid fa-print"></i>
@@ -1836,13 +1968,13 @@
             </button>
 
             ${rx.status === 'ACTIVE' ? `
-              <button onclick="dispensePrescription('${rx.id}')" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition shadow-lg shadow-teal-600/30 flex items-center space-x-2">
+              <button onclick="dispensePrescription('${rx.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center space-x-2">
                 <i class="fa-solid fa-circle-check"></i>
                 <span>Fulfill & Dispense</span>
               </button>
             ` : `
               <div class="text-xs text-slate-400 font-mono flex items-center space-x-1">
-                <i class="fa-solid fa-check-double text-teal-400"></i>
+                <i class="fa-solid fa-check-double text-emerald-400"></i>
                 <span>Fulfilled by ${rx.dispensedBy || 'Pharmacy Counter'}</span>
               </div>
             `}
@@ -1855,22 +1987,62 @@
       const rx = prescriptionsDB.find(r => r.id === rxId);
       if (!rx) return;
 
-      const chemistOrg = currentUser ? currentUser.orgName : 'Medmitra Pharmacy Store';
+      const notesInput = document.getElementById(`chem-notes-${rxId}`);
+      const notesVal = notesInput ? notesInput.value.trim() : '';
+
+      const chemistOrg = currentUser ? currentUser.orgName : 'Medmitra Pharmacy Counter';
       const chemistName = currentUser ? currentUser.name : 'Counter Pharmacist';
 
       rx.status = 'DISPENSED';
       rx.dispensedAt = new Date().toISOString();
       rx.dispensedBy = chemistOrg;
 
-      dispenseLogsDB.push({ rxId: rx.id, patientName: rx.patientName, dispensedAt: rx.dispensedAt, pharmacyName: chemistOrg });
+      const newLog = {
+        id: 'log-' + Date.now(),
+        rxId: rx.id,
+        patientName: rx.patientName,
+        pharmacyName: chemistOrg,
+        chemistName: chemistName,
+        dispensedAt: new Date().toLocaleString(),
+        notes: notesVal || 'Verified & Fulfilled.'
+      };
+
+      dispenseLogsDB.unshift(newLog);
       saveData();
 
       if (isSupabaseConnected) {
-        await syncDispenseToSupabase(rx.id, chemistOrg, chemistName);
+        await syncDispenseToSupabase(rx.id, chemistOrg, chemistName, notesVal);
       }
+
+      // Optional trigger backend API
+      fetch('http://localhost:4000/api/dispense', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rxId: rx.id, pharmacyName: chemistOrg, chemistName: chemistName, notes: notesVal })
+      }).catch(() => {});
 
       showToast(`Prescription fulfilled and dispensed!`, 'success');
       executeChemistSearch();
+    }
+
+    function renderChemistAuditLogs() {
+      const container = document.getElementById('chemist-audit-logs');
+      if (!container) return;
+
+      if (dispenseLogsDB.length === 0) {
+        container.innerHTML = `<div class="text-slate-500 text-[11px]">No recent dispensation records logged.</div>`;
+        return;
+      }
+
+      container.innerHTML = dispenseLogsDB.slice(0, 5).map(l => `
+        <div class="flex items-center justify-between bg-slate-900 p-2 rounded-lg border border-slate-800">
+          <div>
+            <span class="text-emerald-400 font-bold">#${l.rxId.substr(0,8)}</span> - <span class="text-white">${l.patientName}</span>
+            <p class="text-[10px] text-slate-500">${l.pharmacyName} (${l.chemistName})</p>
+          </div>
+          <span class="text-[10px] text-slate-400">${l.dispensedAt}</span>
+        </div>
+      `).join('');
     }
 
     // -------------------------------------------------------------------------
